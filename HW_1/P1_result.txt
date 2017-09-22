@@ -1,0 +1,58 @@
+gcc P10-1.c -o P10-1
+./P10-1 line_set1.txt
+Start computing...
+total overlapping length: 21832333064013
+computing time use: 67.238 sec
+
+./P10-1 line_set1.txt -sort
+Start sorting...
+sorting time use: 14.159 sec
+Start computing...
+total overlapping length: 21832333064013
+computing time use: 43.574 sec
+total time use: 57.733 sec
+
+
+gcc -O1 P10-1.c -o P10-1-O1
+./P10-1-O1 line_set1.txt
+Start computing...
+total overlapping length: 21832333064013
+computing time use: 49.217 sec
+
+./P10-1-O1 line_set1.txt -sort
+Start sorting...
+sorting time use: 2.878 sec
+Start computing...
+total overlapping length: 21832333064013
+computing time use: 26.911 sec
+total time use: 29.789 sec
+
+
+gcc -O2 P10-1.c -o P10-1-O2
+./P10-1-O2 line_set1.txt
+Start computing...
+total overlapping length: 21832333064013
+computing time use: 30.607 sec
+
+./P10-1-O2 line_set1.txt -sort
+Start sorting...
+sorting time use: 2.887 sec
+Start computing...
+total overlapping length: 21832333064013
+computing time use: 14.083 sec
+total time use: 16.970 sec
+
+
+gcc -O3 P10-1.c -o P10-1-O3
+./P10-1-O3 line_set1.txt
+Start computing...
+total overlapping length: 21832333064013
+computing time use: 30.568 sec
+
+./P10-1-O3 line_set1.txt -sort
+Start sorting...
+sorting time use: 2.906 sec
+Start computing...
+total overlapping length: 21832333064013
+computing time use: 13.969 sec
+total time use: 16.875 sec
