@@ -1,0 +1,40 @@
+gcc P10-2.c -o P10-2
+./P10-2 line_set1.txt
+Start sorting...
+sorting time use: 12.878 sec
+
+Start computing...
+total overlapping length: 21832333064013
+computing time use: 66.914 sec
+total time use: 79.792 sec
+
+
+gcc -O1 P10-2.c -o P10-2-O1
+./P10-2-O1 line_set1.txt
+Start sorting...
+sorting time use: 4.613 sec
+
+Start computing...
+total overlapping length: 21832333064013
+computing time use: 31.748 sec
+total time use: 36.361 sec
+
+
+gcc -O2 P10-2.c -o P10-2-O2
+./P10-2-O2 line_set1.txt
+Start sorting...
+sorting time use: 4.671 sec
+Start computing...
+total overlapping length: 21832333064013
+computing time use: 30.358 sec
+total time use: 35.029 sec
+
+gcc -O3 P10-2.c -o P10-2-O3
+./P10-2-O3 line_set1.txt
+Start sorting...
+sorting time use: 4.336 sec
+
+Start computing...
+total overlapping length: 21832333064013
+computing time use: 30.218 sec
+total time use: 34.554 sec
