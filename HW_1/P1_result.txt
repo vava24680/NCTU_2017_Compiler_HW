@@ -2,57 +2,57 @@ gcc P10-1.c -o P10-1
 ./P10-1 line_set1.txt
 Start computing...
 total overlapping length: 21832333064013
-computing time use: 67.238 sec
+computing time use: 67.123 sec
 
 ./P10-1 line_set1.txt -sort
 Start sorting...
-sorting time use: 14.159 sec
+sorting time use: 14.034 sec
 Start computing...
 total overlapping length: 21832333064013
-computing time use: 43.574 sec
-total time use: 57.733 sec
+computing time use: 43.164 sec
+total time use: 57.198 sec
 
 
 gcc -O1 P10-1.c -o P10-1-O1
 ./P10-1-O1 line_set1.txt
 Start computing...
 total overlapping length: 21832333064013
-computing time use: 49.217 sec
+computing time use: 48.149 sec
 
 ./P10-1-O1 line_set1.txt -sort
 Start sorting...
-sorting time use: 2.878 sec
+sorting time use: 2.874 sec
 Start computing...
 total overlapping length: 21832333064013
-computing time use: 26.911 sec
-total time use: 29.789 sec
+computing time use: 26.883 sec
+total time use: 29.757 sec
 
 
 gcc -O2 P10-1.c -o P10-1-O2
 ./P10-1-O2 line_set1.txt
 Start computing...
 total overlapping length: 21832333064013
-computing time use: 30.607 sec
+computing time use: 30.358 sec
 
 ./P10-1-O2 line_set1.txt -sort
 Start sorting...
-sorting time use: 2.887 sec
+sorting time use: 2.868 sec
 Start computing...
 total overlapping length: 21832333064013
-computing time use: 14.083 sec
-total time use: 16.970 sec
+computing time use: 13.786 sec
+total time use: 16.654 sec
 
 
 gcc -O3 P10-1.c -o P10-1-O3
 ./P10-1-O3 line_set1.txt
 Start computing...
 total overlapping length: 21832333064013
-computing time use: 30.568 sec
+computing time use: 30.143 sec
 
 ./P10-1-O3 line_set1.txt -sort
 Start sorting...
-sorting time use: 2.906 sec
+sorting time use: 2.873 sec
 Start computing...
 total overlapping length: 21832333064013
-computing time use: 13.969 sec
-total time use: 16.875 sec
+computing time use: 13.871 sec
+total time use: 16.744 sec
