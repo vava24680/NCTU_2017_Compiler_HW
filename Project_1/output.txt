@@ -1,0 +1,200 @@
+  0-th token(type:28) on line 1 : PROGRAM
+  1-th token(type:39) on line 1 : mytest
+  2-th token(type:52) on line 1 : (
+  3-th token(type:39) on line 1 : input
+  4-th token(type:43) on line 1 : ,
+  5-th token(type:39) on line 1 : output
+  6-th token(type:43) on line 1 : ,
+  7-th token(type:39) on line 1 : error
+  8-th token(type:59) on line 1 : )
+  9-th token(type:60) on line 1 : ;
+ 10-th token(type:61) on line 3 : /
+ 11-th token(type:61) on line 3 : /
+ 12-th token(type:39) on line 3 : incorrect
+ 13-th token(type:39) on line 3 : symbols
+ 14-th token(type:39) on line 3 : test
+ 15-th token(type:36) on line 4 : var
+Lexical analyzer error at line 4 : a
+ 16-th token(type:43) on line 4 : ,
+ 17-th token(type:44) on line 4 : 0
+ 18-th token(type:39) on line 4 : aa
+ 19-th token(type:43) on line 4 : ,
+ 20-th token(type:39) on line 4 : bb
+ 21-th token(type:42) on line 4 : :
+ 22-th token(type:39) on line 4 : integer
+ 23-th token(type:60) on line 4 : ;
+ 24-th token(type:36) on line 5 : var
+ 25-th token(type:39) on line 5 : gg
+ 26-th token(type:43) on line 5 : ,
+ 27-th token(type:39) on line 5 : hh
+ 28-th token(type:43) on line 5 : ,
+ 29-th token(type:39) on line 5 : mm
+ 30-th token(type:43) on line 5 : ,
+ 31-th token(type:39) on line 5 : pp
+ 32-th token(type:43) on line 5 : ,
+ 33-th token(type:39) on line 5 : pp
+Lexical analyzer error at line 5 : @
+Lexical analyzer error at line 5 : $
+ 34-th token(type:44) on line 5 : 5
+ 35-th token(type:42) on line 5 : :
+ 36-th token(type:39) on line 5 : real
+ 37-th token(type:60) on line 5 : ;
+ 38-th token(type:36) on line 8 : var
+ 39-th token(type:39) on line 8 : di
+ 40-th token(type:43) on line 8 : ,
+ 41-th token(type:39) on line 8 : ei
+ 42-th token(type:43) on line 8 : ,
+ 43-th token(type:39) on line 8 : ei00
+ 44-th token(type:43) on line 8 : ,
+ 45-th token(type:39) on line 8 : ei
+ 46-th token(type:60) on line 8 : ;
+ 47-th token(type:43) on line 8 : ,
+ 48-th token(type:54) on line 8 : -
+ 49-th token(type:42) on line 8 : :
+ 50-th token(type:2) on line 8 : array
+ 51-th token(type:50) on line 8 : [
+ 52-th token(type:44) on line 8 : 1
+ 53-th token(type:46) on line 8 : ..
+ 54-th token(type:44) on line 8 : 10
+ 55-th token(type:57) on line 8 : ]
+ 56-th token(type:21) on line 8 : of
+ 57-th token(type:39) on line 8 : integer
+ 58-th token(type:60) on line 8 : ;
+ 59-th token(type:36) on line 9 : var
+ 60-th token(type:39) on line 9 : dr
+ 61-th token(type:43) on line 9 : ,
+ 62-th token(type:39) on line 9 : er
+ 63-th token(type:43) on line 9 : ,
+ 64-th token(type:39) on line 9 : er00
+ 65-th token(type:43) on line 9 : ,
+ 66-th token(type:39) on line 9 : er
+ 67-th token(type:60) on line 9 : ;
+ 68-th token(type:43) on line 9 : ,
+ 69-th token(type:54) on line 9 : -
+ 70-th token(type:42) on line 9 : :
+ 71-th token(type:2) on line 9 : array
+ 72-th token(type:50) on line 9 : [
+ 73-th token(type:44) on line 9 : 1
+ 74-th token(type:46) on line 9 : ..
+ 75-th token(type:44) on line 9 : 10
+ 76-th token(type:57) on line 9 : ]
+ 77-th token(type:21) on line 9 : of
+ 78-th token(type:39) on line 9 : real
+ 79-th token(type:60) on line 9 : ;
+ 80-th token(type:36) on line 11 : var
+ 81-th token(type:39) on line 11 : kki
+ 82-th token(type:43) on line 11 : ,
+ 83-th token(type:39) on line 11 : iii
+ 84-th token(type:42) on line 11 : :
+ 85-th token(type:2) on line 11 : array
+ 86-th token(type:50) on line 11 : [
+ 87-th token(type:44) on line 11 : 23
+ 88-th token(type:46) on line 11 : ..
+ 89-th token(type:44) on line 11 : 57
+ 90-th token(type:57) on line 11 : ]
+ 91-th token(type:21) on line 11 : of
+ 92-th token(type:2) on line 11 : array
+ 93-th token(type:50) on line 11 : [
+ 94-th token(type:44) on line 11 : 23
+ 95-th token(type:46) on line 11 : ..
+ 96-th token(type:44) on line 11 : 57
+ 97-th token(type:57) on line 11 : ]
+ 98-th token(type:21) on line 11 : of
+ 99-th token(type:39) on line 11 : integer
+100-th token(type:60) on line 11 : ;
+101-th token(type:36) on line 12 : var
+102-th token(type:39) on line 12 : kkr
+103-th token(type:43) on line 12 : ,
+104-th token(type:39) on line 12 : iir
+105-th token(type:42) on line 12 : :
+106-th token(type:2) on line 12 : array
+107-th token(type:50) on line 12 : [
+108-th token(type:44) on line 12 : 23
+109-th token(type:46) on line 12 : ..
+110-th token(type:44) on line 12 : 57
+111-th token(type:57) on line 12 : ]
+112-th token(type:21) on line 12 : of
+113-th token(type:2) on line 12 : array
+114-th token(type:50) on line 12 : [
+115-th token(type:44) on line 12 : 23
+116-th token(type:46) on line 12 : ..
+117-th token(type:44) on line 12 : 57
+118-th token(type:57) on line 12 : ]
+119-th token(type:21) on line 12 : of
+120-th token(type:39) on line 12 : real
+121-th token(type:60) on line 12 : ;
+122-th token(type:36) on line 14 : var
+123-th token(type:39) on line 14 : aVeryLongIdentifierGASDFDFGHJERYUKDVBNFBNDFGHwertyuioplkjhgfdsazxcvbnm
+124-th token(type:42) on line 14 : :
+125-th token(type:39) on line 14 : integer
+126-th token(type:60) on line 14 : ;
+127-th token(type:36) on line 15 : var
+Lexical analyzer error at line 15 : a
+Lexical analyzer error at line 15 : _
+128-th token(type:39) on line 15 : wrong
+Lexical analyzer error at line 15 : _
+129-th token(type:39) on line 15 : identifier
+Lexical analyzer error at line 15 : _
+130-th token(type:39) on line 15 : aadgnm
+131-th token(type:42) on line 15 : :
+132-th token(type:39) on line 15 : integer
+133-th token(type:60) on line 15 : ;
+134-th token(type:61) on line 17 : /
+135-th token(type:61) on line 17 : /
+136-th token(type:39) on line 17 : this
+137-th token(type:39) on line 17 : is
+Lexical analyzer error at line 17 : a
+138-th token(type:39) on line 17 : very
+139-th token(type:39) on line 17 : long
+140-th token(type:39) on line 17 : comment
+141-th token(type:1) on line 17 : and
+142-th token(type:39) on line 17 : includes
+143-th token(type:39) on line 17 : letter
+144-th token(type:1) on line 17 : and
+145-th token(type:39) on line 17 : symbol
+146-th token(type:39) on line 17 : qwertyui
+Lexical analyzer error at line 17 : ~
+Lexical analyzer error at line 17 : @
+Lexical analyzer error at line 17 : %
+147-th token(type:39) on line 17 : hopasdfghjkl
+148-th token(type:60) on line 17 : ;
+149-th token(type:45) on line 17 : .
+150-th token(type:43) on line 17 : ,
+151-th token(type:39) on line 17 : mnbvcxz
+Lexical analyzer error at line 17 : `
+152-th token(type:44) on line 17 : 1234567890
+Lexical analyzer error at line 17 : p
+153-th token(type:60) on line 17 : ;
+154-th token(type:39) on line 17 : mdsf4577846799tj
+155-th token(type:43) on line 17 : ,
+156-th token(type:39) on line 17 : vsffdfger
+Lexical analyzer error at line 17 : ~
+Lexical analyzer error at line 17 : !
+Lexical analyzer error at line 17 : @
+Lexical analyzer error at line 17 : #
+Lexical analyzer error at line 17 : $
+Lexical analyzer error at line 17 : %
+157-th token(type:64) on line 17 : ^
+Lexical analyzer error at line 17 : &
+158-th token(type:62) on line 17 : *
+159-th token(type:52) on line 17 : (
+160-th token(type:59) on line 17 : )
+161-th token(type:39) on line 17 : POIUYEP
+Lexical analyzer error at line 17 : _
+162-th token(type:56) on line 17 : +
+Lexical analyzer error at line 17 : |
+Lexical analyzer error at line 17 : _
+163-th token(type:55) on line 34 : <>
+Lexical analyzer error at line 34 : ?
+164-th token(type:42) on line 34 : :
+165-th token(type:9) on line 35 : end
+166-th token(type:45) on line 35 : .
+167-th token(type:61) on line 35 : /
+168-th token(type:61) on line 35 : /
+169-th token(type:39) on line 35 : this
+170-th token(type:39) on line 35 : is
+171-th token(type:39) on line 35 : the
+172-th token(type:9) on line 35 : end
+173-th token(type:21) on line 35 : of
+174-th token(type:39) on line 35 : the
+175-th token(type:28) on line 35 : program
