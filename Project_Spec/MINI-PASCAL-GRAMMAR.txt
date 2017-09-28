@@ -1,0 +1,134 @@
+Mini PASCAL Grammar, 20141105 REVISION.
+  
+
+Additional notes:
+
+1.  In minipascal, there must be an ELSE clause.¡§if expression then statement else statement¡¨
+
+2.  In minipascal, ; is used to separate two statements. If there is ony one statement, sometime we may omit the ;
+
+
+
+-----------------------------
+The grammar starts here.
+
+
+prog    ::= PROGRAM id ( identifier_list ) ;
+  	    declarations
+	    subprogram_declarations
+	    compound_statement
+	    .
+
+
+identifier_list ::= id
+	| identifier_list , id
+
+
+declarations ::= declarations VAR identifier_list : type ;
+	| lambda
+
+
+type ::= standard_type
+	| ARRAY [ num .. num ] OF type
+
+
+standard_type ::= INTEGER
+	| REAL
+        | STRING
+
+
+subprogram_declarations ::=
+	subprogram_declarations subprogram_declaration ;
+	| lambda
+
+
+subprogram_declaration ::=
+	subprogram_head 
+	declarations 			
+        compound_statement
+
+subprogram_head ::= FUNCTION id arguments : standard_type ;
+	| PROCEDURE id arguments ;
+
+
+arguments ::= ( parameter_list )
+	| lambda
+
+
+parameter_list ::= optional_var identifier_list : type
+	| optional_var identifier_list : type ; parameter_list 
+
+
+optional_var   ::= VAR
+        | lambda
+
+
+compound_statement ::= begin
+		       optional_statements
+		       end
+
+
+optional_statements ::= statement_list
+	| lambda
+
+
+statement_list ::= statement
+	| statement_list ; statement
+
+
+statement ::= variable := expression
+	| procedure_statement
+	| compound_statement
+	| IF expression THEN statement ELSE statement
+	| WHILE expression DO statement
+	| lambda
+
+
+variable ::= id tail
+
+tail     ::= [ expression ] tail
+	| lambda 
+
+
+procedure_statement ::= id
+	| id ( expression_list )
+
+
+expression_list ::= expression
+	| expression_list , expression
+
+
+expression ::= simple_expression
+	| simple_expression relop simple_expression
+
+
+simple_expression ::= term
+	| simple_expression addop term
+
+
+term ::= factor
+	| term mulop factor
+
+
+factor ::= id tail
+	| id ( expression_list )
+	| num
+	| ( expression )
+	| not factor
+
+
+addop ::= + | -
+
+
+mulop ::= * | /
+
+
+
+relop ::= <
+	| >
+	| =
+	| <=
+	| >=
+	| !=
+
+%% end of grammar
