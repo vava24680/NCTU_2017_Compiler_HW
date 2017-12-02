@@ -1,0 +1,621 @@
+Shift PROGRAM
+Shift IDENTIFIER
+Shift LPAREN
+Shift IDENTIFIER
+Reduction ( identifier_list -> IDENTIFIER)
+Shift RPAREN
+Shift SEMICOLON
+Reduction ( declarations -> lambda
+Shift VAR
+Shift IDENTIFIER
+Reduction ( identifier_list -> IDENTIFIER)
+Shift COMMA
+Shift IDENTIFIER
+Reduction ( identifier_list COMMA IDENTIFIER)
+Shift COLON
+Shift INT_WORD
+Reduction ( standard_type -> INT_WORD)
+Reduction ( type -> standard type)
+Shift SEMICOLON
+Reduction ( declarations -> declarations VAR identifier_list COLON type SEMICOLON)
+Shift VAR
+Shift IDENTIFIER
+Reduction ( identifier_list -> IDENTIFIER)
+Shift COLON
+Shift REAL
+Reduction ( standard_type -> REAL_WORD)
+Reduction ( type -> standard type)
+Shift SEMICOLON
+Reduction ( declarations -> declarations VAR identifier_list COLON type SEMICOLON)
+Shift VAR
+Shift IDENTIFIER
+Reduction ( identifier_list -> IDENTIFIER)
+Shift COLON
+Shift ARRAY
+Shift LBRAC
+Shift INTEGER
+Shift DOTDOT
+Shift INTEGER
+Shift RBRAC
+Shift OF
+Shift INT_WORD
+Reduction ( standard_type -> INT_WORD)
+Reduction ( type -> standard type)
+Reduction ( type -> ARRAY LBRAC INTEGER DOTDOT INTEGER RBRAC OF type)
+Shift SEMICOLON
+Reduction ( declarations -> declarations VAR identifier_list COLON type SEMICOLON)
+Shift FUNCTION
+Reduction ( subprogram_declarations -> lambda)
+Shift IDENTIFIER
+Shift LPAREN
+Shift IDENTIFIER
+Reduction ( optional_var -> lambda)
+Reduction ( identifier_list -> IDENTIFIER)
+Shift COMMA
+Shift IDENTIFIER
+Reduction ( identifier_list COMMA IDENTIFIER)
+Shift COMMA
+Shift IDENTIFIER
+Reduction ( identifier_list COMMA IDENTIFIER)
+Shift COLON
+Shift INT_WORD
+Reduction ( standard_type -> INT_WORD)
+Reduction ( type -> standard type)
+Shift SEMICOLON
+Shift IDENTIFIER
+Reduction ( optional_var -> lambda)
+Reduction ( identifier_list -> IDENTIFIER)
+Shift COMMA
+Shift IDENTIFIER
+Reduction ( identifier_list COMMA IDENTIFIER)
+Shift COMMA
+Shift IDENTIFIER
+Reduction ( identifier_list COMMA IDENTIFIER)
+Shift COLON
+Shift REAL
+Reduction ( standard_type -> REAL_WORD)
+Reduction ( type -> standard type)
+Shift RPAREN
+Reduction ( parameter_list -> optional_var identifier_list COLON type)
+Reduction ( parameter_list -> optional_var identifier_list COLON type SEMICOLON parameter_list)
+Reduction ( arguments -> LPAREN parameter_list RPAREN)
+Shift COLON
+Shift INT_WORD
+Reduction ( standard_type -> INT_WORD)
+Shift SEMICOLON
+Reduction ( subprogram_head -> FUNCTION identifier arguments COLON standard_type SEMICOLON)
+Reduction ( declarations -> lambda
+Shift VAR
+Shift IDENTIFIER
+Reduction ( identifier_list -> IDENTIFIER)
+Shift COMMA
+Shift IDENTIFIER
+Reduction ( identifier_list COMMA IDENTIFIER)
+Shift COLON
+Shift INT_WORD
+Reduction ( standard_type -> INT_WORD)
+Reduction ( type -> standard type)
+Shift SEMICOLON
+Reduction ( declarations -> declarations VAR identifier_list COLON type SEMICOLON)
+Shift BEGIN
+Shift IDENTIFIER
+Shift ASSIGNMENT
+Reduction ( tail -> lambda)
+Reduction ( variable -> identifier tail)
+Shift INTEGER
+Reduction ( factor -> INTEGER)
+Reduction ( term -> factor)
+Shift END
+Reduction ( simple_expression -> term)
+Reduction ( expression -> simple_expression)
+Reduction ( statement -> variable ASSIGNMENT expression)
+Reduction ( statement_list -> statement)
+Reduction ( optional_statements -> statement_list)
+Reduction ( compound_statement -> begin optional_statements end)
+Reduction ( subprogram_declaration -> subprogram_head declarations compound_statement)
+Shift SEMICOLON
+Reduction ( subprogram_declarations -> subprogram_declarations subprogram_declaration SEMICOLON)
+Shift BEGIN
+Shift IDENTIFIER
+Shift LPAREN
+Shift STRING(NODE type is actually NUMBER)
+Reduction ( factor -> NUMBER(STRING))
+Reduction ( term -> factor)
+Shift RPAREN
+Reduction ( simple_expression -> term)
+Reduction ( expression -> simple_expression)
+Reduction ( expression_list -> expression)
+Reduction ( procedure_statement -> identifier LPAREN expression_list RPAREN)
+Reduction ( statement -> procedure_statement)
+Reduction ( statement_list -> statement)
+Shift SEMICOLON
+Shift IDENTIFIER
+Shift SEMICOLON
+Reduction ( procedure_statement -> identifier)
+Reduction ( statement -> procedure_statement)
+Reduction ( statement_list -> statement_list SEMICOLON statement)
+Shift IDENTIFIER
+Shift LPAREN
+Shift INTEGER
+Reduction ( factor -> INTEGER)
+Reduction ( term -> factor)
+Shift COMMA
+Reduction ( simple_expression -> term)
+Reduction ( expression -> simple_expression)
+Reduction ( expression_list -> expression)
+Shift INTEGER
+Reduction ( factor -> INTEGER)
+Reduction ( term -> factor)
+Shift COMMA
+Reduction ( simple_expression -> term)
+Reduction ( expression -> simple_expression)
+Reduction ( expression_list -> expression_list COMMA expression)
+Shift INTEGER
+Reduction ( factor -> INTEGER)
+Reduction ( term -> factor)
+Shift COMMA
+Reduction ( simple_expression -> term)
+Reduction ( expression -> simple_expression)
+Reduction ( expression_list -> expression_list COMMA expression)
+Shift REALNUMBER
+Reduction ( factor -> REALNUMBER)
+Reduction ( term -> factor)
+Shift COMMA
+Reduction ( simple_expression -> term)
+Reduction ( expression -> simple_expression)
+Reduction ( expression_list -> expression_list COMMA expression)
+Shift REALNUMBER
+Reduction ( factor -> REALNUMBER)
+Reduction ( term -> factor)
+Shift COMMA
+Reduction ( simple_expression -> term)
+Reduction ( expression -> simple_expression)
+Reduction ( expression_list -> expression_list COMMA expression)
+Shift INTEGER
+Reduction ( factor -> INTEGER)
+Reduction ( term -> factor)
+Shift RPAREN
+Reduction ( simple_expression -> term)
+Reduction ( expression -> simple_expression)
+Reduction ( expression_list -> expression_list COMMA expression)
+Reduction ( procedure_statement -> identifier LPAREN expression_list RPAREN)
+Reduction ( statement -> procedure_statement)
+Reduction ( statement_list -> statement_list SEMICOLON statement)
+Shift SEMICOLON
+Shift IF
+Shift IDENTIFIER
+Shift THEN
+Reduction ( tail -> lambda)
+Reduction ( factor -> identifier tail)
+Reduction ( term -> factor)
+Reduction ( simple_expression -> term)
+Reduction ( expression -> simple_expression)
+Shift BEGIN
+Shift IDENTIFIER
+Shift SEMICOLON
+Reduction ( procedure_statement -> identifier)
+Reduction ( statement -> procedure_statement)
+Reduction ( statement_list -> statement)
+Shift IDENTIFIER
+Shift ASSIGNMENT
+Reduction ( tail -> lambda)
+Reduction ( variable -> identifier tail)
+Shift IDENTIFIER
+Shift SEMICOLON
+Reduction ( tail -> lambda)
+Reduction ( factor -> identifier tail)
+Reduction ( term -> factor)
+Reduction ( simple_expression -> term)
+Reduction ( expression -> simple_expression)
+Reduction ( statement -> variable ASSIGNMENT expression)
+Reduction ( statement_list -> statement_list SEMICOLON statement)
+Shift IDENTIFIER
+Shift SEMICOLON
+Reduction ( procedure_statement -> identifier)
+Reduction ( statement -> procedure_statement)
+Reduction ( statement_list -> statement_list SEMICOLON statement)
+Shift IDENTIFIER
+Shift SEMICOLON
+Reduction ( procedure_statement -> identifier)
+Reduction ( statement -> procedure_statement)
+Reduction ( statement_list -> statement_list SEMICOLON statement)
+Shift IDENTIFIER
+Shift SEMICOLON
+Reduction ( procedure_statement -> identifier)
+Reduction ( statement -> procedure_statement)
+Reduction ( statement_list -> statement_list SEMICOLON statement)
+Shift WHILE
+Shift INTEGER
+Reduction ( factor -> INTEGER)
+Reduction ( term -> factor)
+Shift DO
+Reduction ( simple_expression -> term)
+Reduction ( expression -> simple_expression)
+Shift IDENTIFIER
+Shift LPAREN
+Shift INTEGER
+Reduction ( factor -> INTEGER)
+Reduction ( term -> factor)
+Shift COMMA
+Reduction ( simple_expression -> term)
+Reduction ( expression -> simple_expression)
+Reduction ( expression_list -> expression)
+Shift INTEGER
+Reduction ( factor -> INTEGER)
+Reduction ( term -> factor)
+Shift COMMA
+Reduction ( simple_expression -> term)
+Reduction ( expression -> simple_expression)
+Reduction ( expression_list -> expression_list COMMA expression)
+Shift IDENTIFIER
+Shift COMMA
+Reduction ( tail -> lambda)
+Reduction ( factor -> identifier tail)
+Reduction ( term -> factor)
+Reduction ( simple_expression -> term)
+Reduction ( expression -> simple_expression)
+Reduction ( expression_list -> expression_list COMMA expression)
+Shift IDENTIFIER
+Shift RPAREN
+Reduction ( tail -> lambda)
+Reduction ( factor -> identifier tail)
+Reduction ( term -> factor)
+Reduction ( simple_expression -> term)
+Reduction ( expression -> simple_expression)
+Reduction ( expression_list -> expression_list COMMA expression)
+Reduction ( procedure_statement -> identifier LPAREN expression_list RPAREN)
+Reduction ( statement -> procedure_statement)
+Reduction ( statement -> WHILE expression DO statement)
+Reduction ( statement_list -> statement_list SEMICOLON statement)
+Shift END
+Reduction ( optional_statements -> statement_list)
+Reduction ( compound_statement -> begin optional_statements end)
+Reduction ( statement -> compound_statement)
+Shift ELSE
+Shift IDENTIFIER
+Shift ASSIGNMENT
+Reduction ( tail -> lambda)
+Reduction ( variable -> identifier tail)
+Shift INTEGER
+Reduction ( factor -> INTEGER)
+Reduction ( term -> factor)
+Shift SEMICOLON
+Reduction ( simple_expression -> term)
+Reduction ( expression -> simple_expression)
+Reduction ( statement -> variable ASSIGNMENT expression)
+Reduction ( statement -> IF expression THEN statement ELSE statement)
+Reduction ( statement_list -> statement_list SEMICOLON statement)
+Shift IDENTIFIER
+Shift ASSIGNMENT
+Reduction ( tail -> lambda)
+Reduction ( variable -> identifier tail)
+Shift INTEGER
+Reduction ( factor -> INTEGER)
+Reduction ( term -> factor)
+Shift END
+Reduction ( simple_expression -> term)
+Reduction ( expression -> simple_expression)
+Reduction ( statement -> variable ASSIGNMENT expression)
+Reduction ( statement_list -> statement_list SEMICOLON statement)
+Reduction ( optional_statements -> statement_list)
+Reduction ( compound_statement -> begin optional_statements end)
+Shift DOT
+Reduction ( prog -> program identifier LPAREN identifier_list RPAREN SEMICOLON declarations subprogram_declarations compound_statement DOT)
+Parsing correctly
+*********************************************
+/PROG
+	/PROGRAM
+	/IDENTIFIER: HelloWorld
+	/(
+	/IDENTIFIER_LIST
+		/IDENTIFIER: output
+	/)
+	/;
+	/DECLARATIONS
+		/DECLARATIONS
+			/DECLARATIONS
+				/DECLARATIONS
+					/LAMBDA
+				/VAR
+				/IDENTIFIER_LIST
+					/IDENTIFIER_LIST
+						/IDENTIFIER: a
+					/,
+					/IDENTIFIER: c
+				/:
+				/TYPE
+					/STANDARD_TYPE
+						/INTEGER_WORD
+				/;
+			/VAR
+			/IDENTIFIER_LIST
+				/IDENTIFIER: b
+			/:
+			/TYPE
+				/STANDARD_TYPE
+					/REAL_WORD
+			/;
+		/VAR
+		/IDENTIFIER_LIST
+			/IDENTIFIER: d
+		/:
+		/TYPE
+			/ARRAY
+			/[
+			/INTEGER, 1
+			/..
+			/INTEGER, 10
+			/]
+			/OF
+			/TYPE
+				/STANDARD_TYPE
+					/INTEGER_WORD
+		/;
+	/SUBDECLARATIONS
+		/SUBDECLARATIONS
+			/LAMBDA
+		/SUBDECLARATION
+			/SUBPROGRAM_HEAD
+				/FUNCTION
+				/IDENTIFIER: heloo
+				/ARGUMENTS
+					/(
+					/PARAMETER_LIST
+						/OPTIONAL VAR
+							/LAMBDA
+						/IDENTIFIER_LIST
+							/IDENTIFIER_LIST
+								/IDENTIFIER_LIST
+									/IDENTIFIER: a
+								/,
+								/IDENTIFIER: b
+							/,
+							/IDENTIFIER: c
+						/:
+						/TYPE
+							/STANDARD_TYPE
+								/INTEGER_WORD
+						/;
+						/PARAMETER_LIST
+							/OPTIONAL VAR
+								/LAMBDA
+							/IDENTIFIER_LIST
+								/IDENTIFIER_LIST
+									/IDENTIFIER_LIST
+										/IDENTIFIER: d
+									/,
+									/IDENTIFIER: e
+								/,
+								/IDENTIFIER: f
+							/:
+							/TYPE
+								/STANDARD_TYPE
+									/REAL_WORD
+					/)
+				/:
+				/STANDARD_TYPE
+					/INTEGER_WORD
+				/;
+			/DECLARATIONS
+				/DECLARATIONS
+					/LAMBDA
+				/VAR
+				/IDENTIFIER_LIST
+					/IDENTIFIER_LIST
+						/IDENTIFIER: h
+					/,
+					/IDENTIFIER: q
+				/:
+				/TYPE
+					/STANDARD_TYPE
+						/INTEGER_WORD
+				/;
+			/COMPOUND_STATEMENT
+				/BEGIN
+				/OPTIONAL_STATEMENTS
+					/STATEMENT_LIST
+						/STATEMENT
+							/VARIABLE
+								/IDENTIFIER: h
+								/TAIL
+									/LAMBDA
+							/ASSIGNMENT
+							/EXPRESSION
+								/SIMPLE_EXPRESSION
+									/TERM
+										/FACTOR
+											/INTEGER, 0
+				/END
+		/;
+	/COMPOUND_STATEMENT
+		/BEGIN
+		/OPTIONAL_STATEMENTS
+			/STATEMENT_LIST
+				/STATEMENT_LIST
+					/STATEMENT_LIST
+						/STATEMENT_LIST
+							/STATEMENT_LIST
+								/STATEMENT
+									/PROCEDURE_STATEMENTS
+										/IDENTIFIER: writeln
+										/(
+										/EXPRESSION_LIST
+											/EXPRESSION
+												/SIMPLE_EXPRESSION
+													/TERM
+														/FACTOR
+															/NUMBER, 'Hello, world!'
+										/)
+							/;
+							/STATEMENT
+								/PROCEDURE_STATEMENTS
+									/IDENTIFIER: heloo
+						/;
+						/STATEMENT
+							/PROCEDURE_STATEMENTS
+								/IDENTIFIER: heloo
+								/(
+								/EXPRESSION_LIST
+									/EXPRESSION_LIST
+										/EXPRESSION_LIST
+											/EXPRESSION_LIST
+												/EXPRESSION_LIST
+													/EXPRESSION_LIST
+														/EXPRESSION
+															/SIMPLE_EXPRESSION
+																/TERM
+																	/FACTOR
+																		/INTEGER, 2
+													/,
+													/EXPRESSION
+														/SIMPLE_EXPRESSION
+															/TERM
+																/FACTOR
+																	/INTEGER, 3
+												/,
+												/EXPRESSION
+													/SIMPLE_EXPRESSION
+														/TERM
+															/FACTOR
+																/INTEGER, 4
+											/,
+											/EXPRESSION
+												/SIMPLE_EXPRESSION
+													/TERM
+														/FACTOR
+															/REALNUMBER, 2.000000
+										/,
+										/EXPRESSION
+											/SIMPLE_EXPRESSION
+												/TERM
+													/FACTOR
+														/REALNUMBER, 4.000000
+									/,
+									/EXPRESSION
+										/SIMPLE_EXPRESSION
+											/TERM
+												/FACTOR
+													/INTEGER, 2
+								/)
+					/;
+					/STATEMENT
+						/IF
+						/EXPRESSION
+							/SIMPLE_EXPRESSION
+								/TERM
+									/FACTOR
+										/IDENTIFIER: a
+										/TAIL
+											/LAMBDA
+						/THEN
+						/STATEMENT
+							/COMPOUND_STATEMENT
+								/BEGIN
+								/OPTIONAL_STATEMENTS
+									/STATEMENT_LIST
+										/STATEMENT_LIST
+											/STATEMENT_LIST
+												/STATEMENT_LIST
+													/STATEMENT_LIST
+														/STATEMENT_LIST
+															/STATEMENT
+																/PROCEDURE_STATEMENTS
+																	/IDENTIFIER: a
+														/;
+														/STATEMENT
+															/VARIABLE
+																/IDENTIFIER: c
+																/TAIL
+																	/LAMBDA
+															/ASSIGNMENT
+															/EXPRESSION
+																/SIMPLE_EXPRESSION
+																	/TERM
+																		/FACTOR
+																			/IDENTIFIER: a
+																			/TAIL
+																				/LAMBDA
+													/;
+													/STATEMENT
+														/PROCEDURE_STATEMENTS
+															/IDENTIFIER: b
+												/;
+												/STATEMENT
+													/PROCEDURE_STATEMENTS
+														/IDENTIFIER: c
+											/;
+											/STATEMENT
+												/PROCEDURE_STATEMENTS
+													/IDENTIFIER: e
+										/;
+										/STATEMENT
+											/WHILE
+											/EXPRESSION
+												/SIMPLE_EXPRESSION
+													/TERM
+														/FACTOR
+															/INTEGER, 124
+											/DO
+											/STATEMENT
+												/PROCEDURE_STATEMENTS
+													/IDENTIFIER: v
+													/(
+													/EXPRESSION_LIST
+														/EXPRESSION_LIST
+															/EXPRESSION_LIST
+																/EXPRESSION_LIST
+																	/EXPRESSION
+																		/SIMPLE_EXPRESSION
+																			/TERM
+																				/FACTOR
+																					/INTEGER, 2
+																/,
+																/EXPRESSION
+																	/SIMPLE_EXPRESSION
+																		/TERM
+																			/FACTOR
+																				/INTEGER, 5
+															/,
+															/EXPRESSION
+																/SIMPLE_EXPRESSION
+																	/TERM
+																		/FACTOR
+																			/IDENTIFIER: b
+																			/TAIL
+																				/LAMBDA
+														/,
+														/EXPRESSION
+															/SIMPLE_EXPRESSION
+																/TERM
+																	/FACTOR
+																		/IDENTIFIER: d
+																		/TAIL
+																			/LAMBDA
+													/)
+								/END
+						/ELSE
+						/STATEMENT
+							/VARIABLE
+								/IDENTIFIER: a
+								/TAIL
+									/LAMBDA
+							/ASSIGNMENT
+							/EXPRESSION
+								/SIMPLE_EXPRESSION
+									/TERM
+										/FACTOR
+											/INTEGER, 9
+				/;
+				/STATEMENT
+					/VARIABLE
+						/IDENTIFIER: a
+						/TAIL
+							/LAMBDA
+					/ASSIGNMENT
+					/EXPRESSION
+						/SIMPLE_EXPRESSION
+							/TERM
+								/FACTOR
+									/INTEGER, 5
+		/END
+	/.

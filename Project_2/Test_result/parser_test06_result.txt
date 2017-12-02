@@ -1,0 +1,1180 @@
+Shift PROGRAM
+Shift IDENTIFIER
+Shift LPAREN
+Shift IDENTIFIER
+Reduction ( identifier_list -> IDENTIFIER)
+Shift COMMA
+Shift IDENTIFIER
+Reduction ( identifier_list COMMA IDENTIFIER)
+Shift COMMA
+Shift IDENTIFIER
+Reduction ( identifier_list COMMA IDENTIFIER)
+Shift RPAREN
+Shift SEMICOLON
+Reduction ( declarations -> lambda
+Shift VAR
+Shift IDENTIFIER
+Reduction ( identifier_list -> IDENTIFIER)
+Shift COMMA
+Shift IDENTIFIER
+Reduction ( identifier_list COMMA IDENTIFIER)
+Shift COMMA
+Shift IDENTIFIER
+Reduction ( identifier_list COMMA IDENTIFIER)
+Shift COLON
+Shift INT_WORD
+Reduction ( standard_type -> INT_WORD)
+Reduction ( type -> standard type)
+Shift SEMICOLON
+Reduction ( declarations -> declarations VAR identifier_list COLON type SEMICOLON)
+Shift VAR
+Shift IDENTIFIER
+Reduction ( identifier_list -> IDENTIFIER)
+Shift COMMA
+Shift IDENTIFIER
+Reduction ( identifier_list COMMA IDENTIFIER)
+Shift COLON
+Shift ARRAY
+Shift LBRAC
+Shift INTEGER
+Shift DOTDOT
+Shift INTEGER
+Shift RBRAC
+Shift OF
+Shift INT_WORD
+Reduction ( standard_type -> INT_WORD)
+Reduction ( type -> standard type)
+Reduction ( type -> ARRAY LBRAC INTEGER DOTDOT INTEGER RBRAC OF type)
+Shift SEMICOLON
+Reduction ( declarations -> declarations VAR identifier_list COLON type SEMICOLON)
+Shift BEGIN
+Reduction ( subprogram_declarations -> lambda)
+Shift IDENTIFIER
+Shift ASSIGNMENT
+Reduction ( tail -> lambda)
+Reduction ( variable -> identifier tail)
+Shift IDENTIFIER
+Shift PLUS
+Reduction ( tail -> lambda)
+Reduction ( factor -> identifier tail)
+Reduction ( term -> factor)
+Reduction ( simple_expression -> term)
+Reduction ( addop -> PLUS)
+Shift INTEGER
+Reduction ( factor -> INTEGER)
+Reduction ( term -> factor)
+Shift SEMICOLON
+Reduction ( simple_expression -> simple_expression addop term)
+Reduction ( expression -> simple_expression)
+Reduction ( statement -> variable ASSIGNMENT expression)
+Reduction ( statement_list -> statement)
+Shift IDENTIFIER
+Shift ASSIGNMENT
+Reduction ( tail -> lambda)
+Reduction ( variable -> identifier tail)
+Shift IDENTIFIER
+Shift MINUS
+Reduction ( tail -> lambda)
+Reduction ( factor -> identifier tail)
+Reduction ( term -> factor)
+Reduction ( simple_expression -> term)
+Reduction ( addop -> MINUS)
+Shift INTEGER
+Reduction ( factor -> INTEGER)
+Reduction ( term -> factor)
+Shift SEMICOLON
+Reduction ( simple_expression -> simple_expression addop term)
+Reduction ( expression -> simple_expression)
+Reduction ( statement -> variable ASSIGNMENT expression)
+Reduction ( statement_list -> statement_list SEMICOLON statement)
+Shift IDENTIFIER
+Shift ASSIGNMENT
+Reduction ( tail -> lambda)
+Reduction ( variable -> identifier tail)
+Shift IDENTIFIER
+Shift STAR
+Reduction ( tail -> lambda)
+Reduction ( factor -> identifier tail)
+Reduction ( term -> factor)
+Reduction ( mulop -> STAR)
+Shift INTEGER
+Reduction ( factor -> INTEGER)
+Reduction ( term -> term mulop factor)
+Shift SEMICOLON
+Reduction ( simple_expression -> term)
+Reduction ( expression -> simple_expression)
+Reduction ( statement -> variable ASSIGNMENT expression)
+Reduction ( statement_list -> statement_list SEMICOLON statement)
+Shift IDENTIFIER
+Shift ASSIGNMENT
+Reduction ( tail -> lambda)
+Reduction ( variable -> identifier tail)
+Shift IDENTIFIER
+Shift SLASH
+Reduction ( tail -> lambda)
+Reduction ( factor -> identifier tail)
+Reduction ( term -> factor)
+Reduction ( mulop -> SLASH)
+Shift INTEGER
+Reduction ( factor -> INTEGER)
+Reduction ( term -> term mulop factor)
+Shift SEMICOLON
+Reduction ( simple_expression -> term)
+Reduction ( expression -> simple_expression)
+Reduction ( statement -> variable ASSIGNMENT expression)
+Reduction ( statement_list -> statement_list SEMICOLON statement)
+Shift IDENTIFIER
+Shift ASSIGNMENT
+Reduction ( tail -> lambda)
+Reduction ( variable -> identifier tail)
+Shift INTEGER
+Reduction ( factor -> INTEGER)
+Reduction ( term -> factor)
+Shift PLUS
+Reduction ( simple_expression -> term)
+Reduction ( addop -> PLUS)
+Shift INTEGER
+Reduction ( factor -> INTEGER)
+Reduction ( term -> factor)
+Shift STAR
+Reduction ( mulop -> STAR)
+Shift INTEGER
+Reduction ( factor -> INTEGER)
+Reduction ( term -> term mulop factor)
+Shift PLUS
+Reduction ( simple_expression -> simple_expression addop term)
+Reduction ( addop -> PLUS)
+Shift IDENTIFIER
+Shift STAR
+Reduction ( tail -> lambda)
+Reduction ( factor -> identifier tail)
+Reduction ( term -> factor)
+Reduction ( mulop -> STAR)
+Shift LPAREN
+Shift INTEGER
+Reduction ( factor -> INTEGER)
+Reduction ( term -> factor)
+Shift MINUS
+Reduction ( simple_expression -> term)
+Reduction ( addop -> MINUS)
+Shift INTEGER
+Reduction ( factor -> INTEGER)
+Reduction ( term -> factor)
+Shift STAR
+Reduction ( mulop -> STAR)
+Shift INTEGER
+Reduction ( factor -> INTEGER)
+Reduction ( term -> term mulop factor)
+Shift SLASH
+Reduction ( mulop -> SLASH)
+Shift INTEGER
+Reduction ( factor -> INTEGER)
+Reduction ( term -> term mulop factor)
+Shift RPAREN
+Reduction ( simple_expression -> simple_expression addop term)
+Reduction ( expression -> simple_expression)
+Reduction ( factor -> LPAREN expression RPAREN)
+Reduction ( term -> term mulop factor)
+Shift SEMICOLON
+Reduction ( simple_expression -> simple_expression addop term)
+Reduction ( expression -> simple_expression)
+Reduction ( statement -> variable ASSIGNMENT expression)
+Reduction ( statement_list -> statement_list SEMICOLON statement)
+Shift IDENTIFIER
+Shift ASSIGNMENT
+Reduction ( tail -> lambda)
+Reduction ( variable -> identifier tail)
+Shift INTEGER
+Reduction ( factor -> INTEGER)
+Reduction ( term -> factor)
+Shift SEMICOLON
+Reduction ( simple_expression -> term)
+Reduction ( expression -> simple_expression)
+Reduction ( statement -> variable ASSIGNMENT expression)
+Reduction ( statement_list -> statement_list SEMICOLON statement)
+Shift IF
+Shift IDENTIFIER
+Shift GT
+Reduction ( tail -> lambda)
+Reduction ( factor -> identifier tail)
+Reduction ( term -> factor)
+Reduction ( simple_expression -> term)
+Reduction ( relaop -> GT)
+Shift IDENTIFIER
+Shift THEN
+Reduction ( tail -> lambda)
+Reduction ( factor -> identifier tail)
+Reduction ( term -> factor)
+Reduction ( simple_expression -> term)
+Reduction ( expression -> simple_expression relaop simple_expression)
+Shift IDENTIFIER
+Shift ASSIGNMENT
+Reduction ( tail -> lambda)
+Reduction ( variable -> identifier tail)
+Shift IDENTIFIER
+Shift STAR
+Reduction ( tail -> lambda)
+Reduction ( factor -> identifier tail)
+Reduction ( term -> factor)
+Reduction ( mulop -> STAR)
+Shift INTEGER
+Reduction ( factor -> INTEGER)
+Reduction ( term -> term mulop factor)
+Shift ELSE
+Reduction ( simple_expression -> term)
+Reduction ( expression -> simple_expression)
+Reduction ( statement -> variable ASSIGNMENT expression)
+Shift IDENTIFIER
+Shift ASSIGNMENT
+Reduction ( tail -> lambda)
+Reduction ( variable -> identifier tail)
+Shift IDENTIFIER
+Shift STAR
+Reduction ( tail -> lambda)
+Reduction ( factor -> identifier tail)
+Reduction ( term -> factor)
+Reduction ( mulop -> STAR)
+Shift INTEGER
+Reduction ( factor -> INTEGER)
+Reduction ( term -> term mulop factor)
+Shift SEMICOLON
+Reduction ( simple_expression -> term)
+Reduction ( expression -> simple_expression)
+Reduction ( statement -> variable ASSIGNMENT expression)
+Reduction ( statement -> IF expression THEN statement ELSE statement)
+Reduction ( statement_list -> statement_list SEMICOLON statement)
+Shift IF
+Shift IDENTIFIER
+Shift LI
+Reduction ( tail -> lambda)
+Reduction ( factor -> identifier tail)
+Reduction ( term -> factor)
+Reduction ( simple_expression -> term)
+Reduction ( relaop -> LT)
+Shift IDENTIFIER
+Shift THEN
+Reduction ( tail -> lambda)
+Reduction ( factor -> identifier tail)
+Reduction ( term -> factor)
+Reduction ( simple_expression -> term)
+Reduction ( expression -> simple_expression relaop simple_expression)
+Shift IDENTIFIER
+Shift ASSIGNMENT
+Reduction ( tail -> lambda)
+Reduction ( variable -> identifier tail)
+Shift IDENTIFIER
+Shift STAR
+Reduction ( tail -> lambda)
+Reduction ( factor -> identifier tail)
+Reduction ( term -> factor)
+Reduction ( mulop -> STAR)
+Shift INTEGER
+Reduction ( factor -> INTEGER)
+Reduction ( term -> term mulop factor)
+Shift ELSE
+Reduction ( simple_expression -> term)
+Reduction ( expression -> simple_expression)
+Reduction ( statement -> variable ASSIGNMENT expression)
+Shift IDENTIFIER
+Shift ASSIGNMENT
+Reduction ( tail -> lambda)
+Reduction ( variable -> identifier tail)
+Shift IDENTIFIER
+Shift STAR
+Reduction ( tail -> lambda)
+Reduction ( factor -> identifier tail)
+Reduction ( term -> factor)
+Reduction ( mulop -> STAR)
+Shift INTEGER
+Reduction ( factor -> INTEGER)
+Reduction ( term -> term mulop factor)
+Shift SEMICOLON
+Reduction ( simple_expression -> term)
+Reduction ( expression -> simple_expression)
+Reduction ( statement -> variable ASSIGNMENT expression)
+Reduction ( statement -> IF expression THEN statement ELSE statement)
+Reduction ( statement_list -> statement_list SEMICOLON statement)
+Shift IF
+Shift IDENTIFIER
+Shift EQUAL
+Reduction ( tail -> lambda)
+Reduction ( factor -> identifier tail)
+Reduction ( term -> factor)
+Reduction ( simple_expression -> term)
+Reduction ( relaop -> EQUAL)
+Shift IDENTIFIER
+Shift THEN
+Reduction ( tail -> lambda)
+Reduction ( factor -> identifier tail)
+Reduction ( term -> factor)
+Reduction ( simple_expression -> term)
+Reduction ( expression -> simple_expression relaop simple_expression)
+Shift IDENTIFIER
+Shift ASSIGNMENT
+Reduction ( tail -> lambda)
+Reduction ( variable -> identifier tail)
+Shift IDENTIFIER
+Shift STAR
+Reduction ( tail -> lambda)
+Reduction ( factor -> identifier tail)
+Reduction ( term -> factor)
+Reduction ( mulop -> STAR)
+Shift INTEGER
+Reduction ( factor -> INTEGER)
+Reduction ( term -> term mulop factor)
+Shift ELSE
+Reduction ( simple_expression -> term)
+Reduction ( expression -> simple_expression)
+Reduction ( statement -> variable ASSIGNMENT expression)
+Shift IDENTIFIER
+Shift ASSIGNMENT
+Reduction ( tail -> lambda)
+Reduction ( variable -> identifier tail)
+Shift IDENTIFIER
+Shift STAR
+Reduction ( tail -> lambda)
+Reduction ( factor -> identifier tail)
+Reduction ( term -> factor)
+Reduction ( mulop -> STAR)
+Shift INTEGER
+Reduction ( factor -> INTEGER)
+Reduction ( term -> term mulop factor)
+Shift SEMICOLON
+Reduction ( simple_expression -> term)
+Reduction ( expression -> simple_expression)
+Reduction ( statement -> variable ASSIGNMENT expression)
+Reduction ( statement -> IF expression THEN statement ELSE statement)
+Reduction ( statement_list -> statement_list SEMICOLON statement)
+Shift IF
+Shift IDENTIFIER
+Shift GE
+Reduction ( tail -> lambda)
+Reduction ( factor -> identifier tail)
+Reduction ( term -> factor)
+Reduction ( simple_expression -> term)
+Reduction ( relaop -> GE)
+Shift IDENTIFIER
+Shift THEN
+Reduction ( tail -> lambda)
+Reduction ( factor -> identifier tail)
+Reduction ( term -> factor)
+Reduction ( simple_expression -> term)
+Reduction ( expression -> simple_expression relaop simple_expression)
+Shift IDENTIFIER
+Shift ASSIGNMENT
+Reduction ( tail -> lambda)
+Reduction ( variable -> identifier tail)
+Shift IDENTIFIER
+Shift STAR
+Reduction ( tail -> lambda)
+Reduction ( factor -> identifier tail)
+Reduction ( term -> factor)
+Reduction ( mulop -> STAR)
+Shift INTEGER
+Reduction ( factor -> INTEGER)
+Reduction ( term -> term mulop factor)
+Shift ELSE
+Reduction ( simple_expression -> term)
+Reduction ( expression -> simple_expression)
+Reduction ( statement -> variable ASSIGNMENT expression)
+Shift IDENTIFIER
+Shift ASSIGNMENT
+Reduction ( tail -> lambda)
+Reduction ( variable -> identifier tail)
+Shift IDENTIFIER
+Shift STAR
+Reduction ( tail -> lambda)
+Reduction ( factor -> identifier tail)
+Reduction ( term -> factor)
+Reduction ( mulop -> STAR)
+Shift INTEGER
+Reduction ( factor -> INTEGER)
+Reduction ( term -> term mulop factor)
+Shift SEMICOLON
+Reduction ( simple_expression -> term)
+Reduction ( expression -> simple_expression)
+Reduction ( statement -> variable ASSIGNMENT expression)
+Reduction ( statement -> IF expression THEN statement ELSE statement)
+Reduction ( statement_list -> statement_list SEMICOLON statement)
+Shift IF
+Shift IDENTIFIER
+Shift LE
+Reduction ( tail -> lambda)
+Reduction ( factor -> identifier tail)
+Reduction ( term -> factor)
+Reduction ( simple_expression -> term)
+Reduction ( relaop -> LE)
+Shift IDENTIFIER
+Shift THEN
+Reduction ( tail -> lambda)
+Reduction ( factor -> identifier tail)
+Reduction ( term -> factor)
+Reduction ( simple_expression -> term)
+Reduction ( expression -> simple_expression relaop simple_expression)
+Shift IDENTIFIER
+Shift ASSIGNMENT
+Reduction ( tail -> lambda)
+Reduction ( variable -> identifier tail)
+Shift IDENTIFIER
+Shift STAR
+Reduction ( tail -> lambda)
+Reduction ( factor -> identifier tail)
+Reduction ( term -> factor)
+Reduction ( mulop -> STAR)
+Shift INTEGER
+Reduction ( factor -> INTEGER)
+Reduction ( term -> term mulop factor)
+Shift ELSE
+Reduction ( simple_expression -> term)
+Reduction ( expression -> simple_expression)
+Reduction ( statement -> variable ASSIGNMENT expression)
+Shift IDENTIFIER
+Shift ASSIGNMENT
+Reduction ( tail -> lambda)
+Reduction ( variable -> identifier tail)
+Shift IDENTIFIER
+Shift STAR
+Reduction ( tail -> lambda)
+Reduction ( factor -> identifier tail)
+Reduction ( term -> factor)
+Reduction ( mulop -> STAR)
+Shift INTEGER
+Reduction ( factor -> INTEGER)
+Reduction ( term -> term mulop factor)
+Shift SEMICOLON
+Reduction ( simple_expression -> term)
+Reduction ( expression -> simple_expression)
+Reduction ( statement -> variable ASSIGNMENT expression)
+Reduction ( statement -> IF expression THEN statement ELSE statement)
+Reduction ( statement_list -> statement_list SEMICOLON statement)
+Shift IF
+Shift IDENTIFIER
+Shift NOTEQUAL
+Reduction ( tail -> lambda)
+Reduction ( factor -> identifier tail)
+Reduction ( term -> factor)
+Reduction ( simple_expression -> term)
+Reduction ( relaop -> NOTEQUAL)
+Shift INTEGER
+Reduction ( factor -> INTEGER)
+Reduction ( term -> factor)
+Shift THEN
+Reduction ( simple_expression -> term)
+Reduction ( expression -> simple_expression relaop simple_expression)
+Shift IDENTIFIER
+Shift ASSIGNMENT
+Reduction ( tail -> lambda)
+Reduction ( variable -> identifier tail)
+Shift IDENTIFIER
+Shift STAR
+Reduction ( tail -> lambda)
+Reduction ( factor -> identifier tail)
+Reduction ( term -> factor)
+Reduction ( mulop -> STAR)
+Shift INTEGER
+Reduction ( factor -> INTEGER)
+Reduction ( term -> term mulop factor)
+Shift ELSE
+Reduction ( simple_expression -> term)
+Reduction ( expression -> simple_expression)
+Reduction ( statement -> variable ASSIGNMENT expression)
+Shift IDENTIFIER
+Shift ASSIGNMENT
+Reduction ( tail -> lambda)
+Reduction ( variable -> identifier tail)
+Shift IDENTIFIER
+Shift STAR
+Reduction ( tail -> lambda)
+Reduction ( factor -> identifier tail)
+Reduction ( term -> factor)
+Reduction ( mulop -> STAR)
+Shift INTEGER
+Reduction ( factor -> INTEGER)
+Reduction ( term -> term mulop factor)
+Shift SEMICOLON
+Reduction ( simple_expression -> term)
+Reduction ( expression -> simple_expression)
+Reduction ( statement -> variable ASSIGNMENT expression)
+Reduction ( statement -> IF expression THEN statement ELSE statement)
+Reduction ( statement_list -> statement_list SEMICOLON statement)
+Shift IF
+Shift NOT
+Shift LPAREN
+Shift IDENTIFIER
+Shift GT
+Reduction ( tail -> lambda)
+Reduction ( factor -> identifier tail)
+Reduction ( term -> factor)
+Reduction ( simple_expression -> term)
+Reduction ( relaop -> GT)
+Shift IDENTIFIER
+Shift RPAREN
+Reduction ( tail -> lambda)
+Reduction ( factor -> identifier tail)
+Reduction ( term -> factor)
+Reduction ( simple_expression -> term)
+Reduction ( expression -> simple_expression relaop simple_expression)
+Reduction ( factor -> LPAREN expression RPAREN)
+Reduction ( factor -> not factor)
+Reduction ( term -> factor)
+Shift THEN
+Reduction ( simple_expression -> term)
+Reduction ( expression -> simple_expression)
+Shift IDENTIFIER
+Shift ASSIGNMENT
+Reduction ( tail -> lambda)
+Reduction ( variable -> identifier tail)
+Shift IDENTIFIER
+Shift STAR
+Reduction ( tail -> lambda)
+Reduction ( factor -> identifier tail)
+Reduction ( term -> factor)
+Reduction ( mulop -> STAR)
+Shift INTEGER
+Reduction ( factor -> INTEGER)
+Reduction ( term -> term mulop factor)
+Shift ELSE
+Reduction ( simple_expression -> term)
+Reduction ( expression -> simple_expression)
+Reduction ( statement -> variable ASSIGNMENT expression)
+Shift IDENTIFIER
+Shift ASSIGNMENT
+Reduction ( tail -> lambda)
+Reduction ( variable -> identifier tail)
+Shift IDENTIFIER
+Shift STAR
+Reduction ( tail -> lambda)
+Reduction ( factor -> identifier tail)
+Reduction ( term -> factor)
+Reduction ( mulop -> STAR)
+Shift INTEGER
+Reduction ( factor -> INTEGER)
+Reduction ( term -> term mulop factor)
+Shift END
+Reduction ( simple_expression -> term)
+Reduction ( expression -> simple_expression)
+Reduction ( statement -> variable ASSIGNMENT expression)
+Reduction ( statement -> IF expression THEN statement ELSE statement)
+Reduction ( statement_list -> statement_list SEMICOLON statement)
+Reduction ( optional_statements -> statement_list)
+Reduction ( compound_statement -> begin optional_statements end)
+Shift DOT
+Reduction ( prog -> program identifier LPAREN identifier_list RPAREN SEMICOLON declarations subprogram_declarations compound_statement DOT)
+Parsing correctly
+*********************************************
+/PROG
+	/PROGRAM
+	/IDENTIFIER: foo
+	/(
+	/IDENTIFIER_LIST
+		/IDENTIFIER_LIST
+			/IDENTIFIER_LIST
+				/IDENTIFIER: input
+			/,
+			/IDENTIFIER: output
+		/,
+		/IDENTIFIER: error
+	/)
+	/;
+	/DECLARATIONS
+		/DECLARATIONS
+			/DECLARATIONS
+				/LAMBDA
+			/VAR
+			/IDENTIFIER_LIST
+				/IDENTIFIER_LIST
+					/IDENTIFIER_LIST
+						/IDENTIFIER: a
+					/,
+					/IDENTIFIER: b
+				/,
+				/IDENTIFIER: c
+			/:
+			/TYPE
+				/STANDARD_TYPE
+					/INTEGER_WORD
+			/;
+		/VAR
+		/IDENTIFIER_LIST
+			/IDENTIFIER_LIST
+				/IDENTIFIER: d
+			/,
+			/IDENTIFIER: e
+		/:
+		/TYPE
+			/ARRAY
+			/[
+			/INTEGER, 1
+			/..
+			/INTEGER, 10
+			/]
+			/OF
+			/TYPE
+				/STANDARD_TYPE
+					/INTEGER_WORD
+		/;
+	/SUBDECLARATIONS
+		/LAMBDA
+	/COMPOUND_STATEMENT
+		/BEGIN
+		/OPTIONAL_STATEMENTS
+			/STATEMENT_LIST
+				/STATEMENT_LIST
+					/STATEMENT_LIST
+						/STATEMENT_LIST
+							/STATEMENT_LIST
+								/STATEMENT_LIST
+									/STATEMENT_LIST
+										/STATEMENT_LIST
+											/STATEMENT_LIST
+												/STATEMENT_LIST
+													/STATEMENT_LIST
+														/STATEMENT_LIST
+															/STATEMENT_LIST
+																/STATEMENT
+																	/VARIABLE
+																		/IDENTIFIER: b
+																		/TAIL
+																			/LAMBDA
+																	/ASSIGNMENT
+																	/EXPRESSION
+																		/SIMPLE_EXPRESSION
+																			/SIMPLE_EXPRESSION
+																				/TERM
+																					/FACTOR
+																						/IDENTIFIER: a
+																						/TAIL
+																							/LAMBDA
+																			/ADDOP
+																				/+
+																			/TERM
+																				/FACTOR
+																					/INTEGER, 93
+															/;
+															/STATEMENT
+																/VARIABLE
+																	/IDENTIFIER: b
+																	/TAIL
+																		/LAMBDA
+																/ASSIGNMENT
+																/EXPRESSION
+																	/SIMPLE_EXPRESSION
+																		/SIMPLE_EXPRESSION
+																			/TERM
+																				/FACTOR
+																					/IDENTIFIER: a
+																					/TAIL
+																						/LAMBDA
+																		/ADDOP
+																			/-
+																		/TERM
+																			/FACTOR
+																				/INTEGER, 93
+														/;
+														/STATEMENT
+															/VARIABLE
+																/IDENTIFIER: b
+																/TAIL
+																	/LAMBDA
+															/ASSIGNMENT
+															/EXPRESSION
+																/SIMPLE_EXPRESSION
+																	/TERM
+																		/TERM
+																			/FACTOR
+																				/IDENTIFIER: a
+																				/TAIL
+																					/LAMBDA
+																		/MULOP
+																			/*
+																		/FACTOR
+																			/INTEGER, 93
+													/;
+													/STATEMENT
+														/VARIABLE
+															/IDENTIFIER: b
+															/TAIL
+																/LAMBDA
+														/ASSIGNMENT
+														/EXPRESSION
+															/SIMPLE_EXPRESSION
+																/TERM
+																	/TERM
+																		/FACTOR
+																			/IDENTIFIER: a
+																			/TAIL
+																				/LAMBDA
+																	/MULOP
+																		//
+																	/FACTOR
+																		/INTEGER, 93
+												/;
+												/STATEMENT
+													/VARIABLE
+														/IDENTIFIER: b
+														/TAIL
+															/LAMBDA
+													/ASSIGNMENT
+													/EXPRESSION
+														/SIMPLE_EXPRESSION
+															/SIMPLE_EXPRESSION
+																/SIMPLE_EXPRESSION
+																	/TERM
+																		/FACTOR
+																			/INTEGER, 3
+																/ADDOP
+																	/+
+																/TERM
+																	/TERM
+																		/FACTOR
+																			/INTEGER, 93
+																	/MULOP
+																		/*
+																	/FACTOR
+																		/INTEGER, 5
+															/ADDOP
+																/+
+															/TERM
+																/TERM
+																	/FACTOR
+																		/IDENTIFIER: b
+																		/TAIL
+																			/LAMBDA
+																/MULOP
+																	/*
+																/FACTOR
+																	/(
+																	/EXPRESSION
+																		/SIMPLE_EXPRESSION
+																			/SIMPLE_EXPRESSION
+																				/TERM
+																					/FACTOR
+																						/INTEGER, 23
+																			/ADDOP
+																				/-
+																			/TERM
+																				/TERM
+																					/TERM
+																						/FACTOR
+																							/INTEGER, 15
+																					/MULOP
+																						/*
+																					/FACTOR
+																						/INTEGER, 6
+																				/MULOP
+																					//
+																				/FACTOR
+																					/INTEGER, 9
+																	/)
+											/;
+											/STATEMENT
+												/VARIABLE
+													/IDENTIFIER: a
+													/TAIL
+														/LAMBDA
+												/ASSIGNMENT
+												/EXPRESSION
+													/SIMPLE_EXPRESSION
+														/TERM
+															/FACTOR
+																/INTEGER, 1
+										/;
+										/STATEMENT
+											/IF
+											/EXPRESSION
+												/SIMPLE_EXPRESSION
+													/TERM
+														/FACTOR
+															/IDENTIFIER: b
+															/TAIL
+																/LAMBDA
+												/RELAOP
+													/>
+												/SIMPLE_EXPRESSION
+													/TERM
+														/FACTOR
+															/IDENTIFIER: a
+															/TAIL
+																/LAMBDA
+											/THEN
+											/STATEMENT
+												/VARIABLE
+													/IDENTIFIER: a
+													/TAIL
+														/LAMBDA
+												/ASSIGNMENT
+												/EXPRESSION
+													/SIMPLE_EXPRESSION
+														/TERM
+															/TERM
+																/FACTOR
+																	/IDENTIFIER: a
+																	/TAIL
+																		/LAMBDA
+															/MULOP
+																/*
+															/FACTOR
+																/INTEGER, 2
+											/ELSE
+											/STATEMENT
+												/VARIABLE
+													/IDENTIFIER: a
+													/TAIL
+														/LAMBDA
+												/ASSIGNMENT
+												/EXPRESSION
+													/SIMPLE_EXPRESSION
+														/TERM
+															/TERM
+																/FACTOR
+																	/IDENTIFIER: a
+																	/TAIL
+																		/LAMBDA
+															/MULOP
+																/*
+															/FACTOR
+																/INTEGER, 3
+									/;
+									/STATEMENT
+										/IF
+										/EXPRESSION
+											/SIMPLE_EXPRESSION
+												/TERM
+													/FACTOR
+														/IDENTIFIER: b
+														/TAIL
+															/LAMBDA
+											/RELAOP
+												/<
+											/SIMPLE_EXPRESSION
+												/TERM
+													/FACTOR
+														/IDENTIFIER: a
+														/TAIL
+															/LAMBDA
+										/THEN
+										/STATEMENT
+											/VARIABLE
+												/IDENTIFIER: a
+												/TAIL
+													/LAMBDA
+											/ASSIGNMENT
+											/EXPRESSION
+												/SIMPLE_EXPRESSION
+													/TERM
+														/TERM
+															/FACTOR
+																/IDENTIFIER: a
+																/TAIL
+																	/LAMBDA
+														/MULOP
+															/*
+														/FACTOR
+															/INTEGER, 5
+										/ELSE
+										/STATEMENT
+											/VARIABLE
+												/IDENTIFIER: a
+												/TAIL
+													/LAMBDA
+											/ASSIGNMENT
+											/EXPRESSION
+												/SIMPLE_EXPRESSION
+													/TERM
+														/TERM
+															/FACTOR
+																/IDENTIFIER: a
+																/TAIL
+																	/LAMBDA
+														/MULOP
+															/*
+														/FACTOR
+															/INTEGER, 7
+								/;
+								/STATEMENT
+									/IF
+									/EXPRESSION
+										/SIMPLE_EXPRESSION
+											/TERM
+												/FACTOR
+													/IDENTIFIER: b
+													/TAIL
+														/LAMBDA
+										/RELAOP
+											/=
+										/SIMPLE_EXPRESSION
+											/TERM
+												/FACTOR
+													/IDENTIFIER: a
+													/TAIL
+														/LAMBDA
+									/THEN
+									/STATEMENT
+										/VARIABLE
+											/IDENTIFIER: a
+											/TAIL
+												/LAMBDA
+										/ASSIGNMENT
+										/EXPRESSION
+											/SIMPLE_EXPRESSION
+												/TERM
+													/TERM
+														/FACTOR
+															/IDENTIFIER: a
+															/TAIL
+																/LAMBDA
+													/MULOP
+														/*
+													/FACTOR
+														/INTEGER, 11
+									/ELSE
+									/STATEMENT
+										/VARIABLE
+											/IDENTIFIER: a
+											/TAIL
+												/LAMBDA
+										/ASSIGNMENT
+										/EXPRESSION
+											/SIMPLE_EXPRESSION
+												/TERM
+													/TERM
+														/FACTOR
+															/IDENTIFIER: a
+															/TAIL
+																/LAMBDA
+													/MULOP
+														/*
+													/FACTOR
+														/INTEGER, 13
+							/;
+							/STATEMENT
+								/IF
+								/EXPRESSION
+									/SIMPLE_EXPRESSION
+										/TERM
+											/FACTOR
+												/IDENTIFIER: b
+												/TAIL
+													/LAMBDA
+									/RELAOP
+										/>=
+									/SIMPLE_EXPRESSION
+										/TERM
+											/FACTOR
+												/IDENTIFIER: a
+												/TAIL
+													/LAMBDA
+								/THEN
+								/STATEMENT
+									/VARIABLE
+										/IDENTIFIER: a
+										/TAIL
+											/LAMBDA
+									/ASSIGNMENT
+									/EXPRESSION
+										/SIMPLE_EXPRESSION
+											/TERM
+												/TERM
+													/FACTOR
+														/IDENTIFIER: a
+														/TAIL
+															/LAMBDA
+												/MULOP
+													/*
+												/FACTOR
+													/INTEGER, 17
+								/ELSE
+								/STATEMENT
+									/VARIABLE
+										/IDENTIFIER: a
+										/TAIL
+											/LAMBDA
+									/ASSIGNMENT
+									/EXPRESSION
+										/SIMPLE_EXPRESSION
+											/TERM
+												/TERM
+													/FACTOR
+														/IDENTIFIER: a
+														/TAIL
+															/LAMBDA
+												/MULOP
+													/*
+												/FACTOR
+													/INTEGER, 19
+						/;
+						/STATEMENT
+							/IF
+							/EXPRESSION
+								/SIMPLE_EXPRESSION
+									/TERM
+										/FACTOR
+											/IDENTIFIER: b
+											/TAIL
+												/LAMBDA
+								/RELAOP
+									/<=
+								/SIMPLE_EXPRESSION
+									/TERM
+										/FACTOR
+											/IDENTIFIER: a
+											/TAIL
+												/LAMBDA
+							/THEN
+							/STATEMENT
+								/VARIABLE
+									/IDENTIFIER: a
+									/TAIL
+										/LAMBDA
+								/ASSIGNMENT
+								/EXPRESSION
+									/SIMPLE_EXPRESSION
+										/TERM
+											/TERM
+												/FACTOR
+													/IDENTIFIER: a
+													/TAIL
+														/LAMBDA
+											/MULOP
+												/*
+											/FACTOR
+												/INTEGER, 23
+							/ELSE
+							/STATEMENT
+								/VARIABLE
+									/IDENTIFIER: a
+									/TAIL
+										/LAMBDA
+								/ASSIGNMENT
+								/EXPRESSION
+									/SIMPLE_EXPRESSION
+										/TERM
+											/TERM
+												/FACTOR
+													/IDENTIFIER: a
+													/TAIL
+														/LAMBDA
+											/MULOP
+												/*
+											/FACTOR
+												/INTEGER, 29
+					/;
+					/STATEMENT
+						/IF
+						/EXPRESSION
+							/SIMPLE_EXPRESSION
+								/TERM
+									/FACTOR
+										/IDENTIFIER: b
+										/TAIL
+											/LAMBDA
+							/RELAOP
+								/!=
+							/SIMPLE_EXPRESSION
+								/TERM
+									/FACTOR
+										/INTEGER, 0
+						/THEN
+						/STATEMENT
+							/VARIABLE
+								/IDENTIFIER: a
+								/TAIL
+									/LAMBDA
+							/ASSIGNMENT
+							/EXPRESSION
+								/SIMPLE_EXPRESSION
+									/TERM
+										/TERM
+											/FACTOR
+												/IDENTIFIER: a
+												/TAIL
+													/LAMBDA
+										/MULOP
+											/*
+										/FACTOR
+											/INTEGER, 31
+						/ELSE
+						/STATEMENT
+							/VARIABLE
+								/IDENTIFIER: a
+								/TAIL
+									/LAMBDA
+							/ASSIGNMENT
+							/EXPRESSION
+								/SIMPLE_EXPRESSION
+									/TERM
+										/TERM
+											/FACTOR
+												/IDENTIFIER: a
+												/TAIL
+													/LAMBDA
+										/MULOP
+											/*
+										/FACTOR
+											/INTEGER, 37
+				/;
+				/STATEMENT
+					/IF
+					/EXPRESSION
+						/SIMPLE_EXPRESSION
+							/TERM
+								/FACTOR
+									/NOT
+									/FACTOR
+										/(
+										/EXPRESSION
+											/SIMPLE_EXPRESSION
+												/TERM
+													/FACTOR
+														/IDENTIFIER: b
+														/TAIL
+															/LAMBDA
+											/RELAOP
+												/>
+											/SIMPLE_EXPRESSION
+												/TERM
+													/FACTOR
+														/IDENTIFIER: a
+														/TAIL
+															/LAMBDA
+										/)
+					/THEN
+					/STATEMENT
+						/VARIABLE
+							/IDENTIFIER: a
+							/TAIL
+								/LAMBDA
+						/ASSIGNMENT
+						/EXPRESSION
+							/SIMPLE_EXPRESSION
+								/TERM
+									/TERM
+										/FACTOR
+											/IDENTIFIER: a
+											/TAIL
+												/LAMBDA
+									/MULOP
+										/*
+									/FACTOR
+										/INTEGER, 41
+					/ELSE
+					/STATEMENT
+						/VARIABLE
+							/IDENTIFIER: a
+							/TAIL
+								/LAMBDA
+						/ASSIGNMENT
+						/EXPRESSION
+							/SIMPLE_EXPRESSION
+								/TERM
+									/TERM
+										/FACTOR
+											/IDENTIFIER: a
+											/TAIL
+												/LAMBDA
+									/MULOP
+										/*
+									/FACTOR
+										/INTEGER, 43
+		/END
+	/.

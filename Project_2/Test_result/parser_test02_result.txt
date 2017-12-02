@@ -1,0 +1,430 @@
+Shift PROGRAM
+Shift IDENTIFIER
+Shift LPAREN
+Shift IDENTIFIER
+Reduction ( identifier_list -> IDENTIFIER)
+Shift COMMA
+Shift IDENTIFIER
+Reduction ( identifier_list COMMA IDENTIFIER)
+Shift COMMA
+Shift IDENTIFIER
+Reduction ( identifier_list COMMA IDENTIFIER)
+Shift RPAREN
+Shift SEMICOLON
+Reduction ( declarations -> lambda
+Shift VAR
+Shift IDENTIFIER
+Reduction ( identifier_list -> IDENTIFIER)
+Shift COMMA
+Shift IDENTIFIER
+Reduction ( identifier_list COMMA IDENTIFIER)
+Shift COMMA
+Shift IDENTIFIER
+Reduction ( identifier_list COMMA IDENTIFIER)
+Shift COLON
+Shift INT_WORD
+Reduction ( standard_type -> INT_WORD)
+Reduction ( type -> standard type)
+Shift SEMICOLON
+Reduction ( declarations -> declarations VAR identifier_list COLON type SEMICOLON)
+Shift VAR
+Shift IDENTIFIER
+Reduction ( identifier_list -> IDENTIFIER)
+Shift COMMA
+Shift IDENTIFIER
+Reduction ( identifier_list COMMA IDENTIFIER)
+Shift COLON
+Shift ARRAY
+Shift LBRAC
+Shift INTEGER
+Shift DOTDOT
+Shift INTEGER
+Shift RBRAC
+Shift OF
+Shift INT_WORD
+Reduction ( standard_type -> INT_WORD)
+Reduction ( type -> standard type)
+Reduction ( type -> ARRAY LBRAC INTEGER DOTDOT INTEGER RBRAC OF type)
+Shift SEMICOLON
+Reduction ( declarations -> declarations VAR identifier_list COLON type SEMICOLON)
+Shift VAR
+Shift IDENTIFIER
+Reduction ( identifier_list -> IDENTIFIER)
+Shift COMMA
+Shift IDENTIFIER
+Reduction ( identifier_list COMMA IDENTIFIER)
+Shift COLON
+Shift REAL
+Reduction ( standard_type -> REAL_WORD)
+Reduction ( type -> standard type)
+Shift SEMICOLON
+Reduction ( declarations -> declarations VAR identifier_list COLON type SEMICOLON)
+Shift VAR
+Shift IDENTIFIER
+Reduction ( identifier_list -> IDENTIFIER)
+Shift COLON
+Shift ARRAY
+Shift LBRAC
+Shift INTEGER
+Shift DOTDOT
+Shift INTEGER
+Shift RBRAC
+Shift OF
+Shift ARRAY
+Shift LBRAC
+Shift INTEGER
+Shift DOTDOT
+Shift INTEGER
+Shift RBRAC
+Shift OF
+Shift ARRAY
+Shift LBRAC
+Shift INTEGER
+Shift DOTDOT
+Shift INTEGER
+Shift RBRAC
+Shift OF
+Shift ARRAY
+Shift LBRAC
+Shift INTEGER
+Shift DOTDOT
+Shift INTEGER
+Shift RBRAC
+Shift OF
+Shift ARRAY
+Shift LBRAC
+Shift INTEGER
+Shift DOTDOT
+Shift INTEGER
+Shift RBRAC
+Shift OF
+Shift REAL
+Reduction ( standard_type -> REAL_WORD)
+Reduction ( type -> standard type)
+Reduction ( type -> ARRAY LBRAC INTEGER DOTDOT INTEGER RBRAC OF type)
+Reduction ( type -> ARRAY LBRAC INTEGER DOTDOT INTEGER RBRAC OF type)
+Reduction ( type -> ARRAY LBRAC INTEGER DOTDOT INTEGER RBRAC OF type)
+Reduction ( type -> ARRAY LBRAC INTEGER DOTDOT INTEGER RBRAC OF type)
+Reduction ( type -> ARRAY LBRAC INTEGER DOTDOT INTEGER RBRAC OF type)
+Shift SEMICOLON
+Reduction ( declarations -> declarations VAR identifier_list COLON type SEMICOLON)
+Shift VAR
+Shift IDENTIFIER
+Reduction ( identifier_list -> IDENTIFIER)
+Shift COLON
+Shift ARRAY
+Shift LBRAC
+Shift INTEGER
+Shift DOTDOT
+Shift INTEGER
+Shift RBRAC
+Shift OF
+Shift ARRAY
+Shift LBRAC
+Shift INTEGER
+Shift DOTDOT
+Shift INTEGER
+Shift RBRAC
+Shift OF
+Shift REAL
+Reduction ( standard_type -> REAL_WORD)
+Reduction ( type -> standard type)
+Reduction ( type -> ARRAY LBRAC INTEGER DOTDOT INTEGER RBRAC OF type)
+Reduction ( type -> ARRAY LBRAC INTEGER DOTDOT INTEGER RBRAC OF type)
+Shift SEMICOLON
+Reduction ( declarations -> declarations VAR identifier_list COLON type SEMICOLON)
+Shift BEGIN
+Reduction ( subprogram_declarations -> lambda)
+Shift IDENTIFIER
+Shift ASSIGNMENT
+Reduction ( tail -> lambda)
+Reduction ( variable -> identifier tail)
+Shift IDENTIFIER
+Shift PLUS
+Reduction ( tail -> lambda)
+Reduction ( factor -> identifier tail)
+Reduction ( term -> factor)
+Reduction ( simple_expression -> term)
+Reduction ( addop -> PLUS)
+Shift INTEGER
+Reduction ( factor -> INTEGER)
+Reduction ( term -> factor)
+Shift SEMICOLON
+Reduction ( simple_expression -> simple_expression addop term)
+Reduction ( expression -> simple_expression)
+Reduction ( statement -> variable ASSIGNMENT expression)
+Reduction ( statement_list -> statement)
+Shift IDENTIFIER
+Shift LBRAC
+Shift INTEGER
+Reduction ( factor -> INTEGER)
+Reduction ( term -> factor)
+Shift RBRAC
+Reduction ( simple_expression -> term)
+Reduction ( expression -> simple_expression)
+Shift LBRAC
+Shift INTEGER
+Reduction ( factor -> INTEGER)
+Reduction ( term -> factor)
+Shift RBRAC
+Reduction ( simple_expression -> term)
+Reduction ( expression -> simple_expression)
+Shift ASSIGNMENT
+Reduction ( tail -> lambda)
+Reduction ( tail -> LBRAC expression RBRAC tail)
+Reduction ( tail -> LBRAC expression RBRAC tail)
+Reduction ( variable -> identifier tail)
+Shift IDENTIFIER
+Shift LBRAC
+Shift INTEGER
+Reduction ( factor -> INTEGER)
+Reduction ( term -> factor)
+Shift RBRAC
+Reduction ( simple_expression -> term)
+Reduction ( expression -> simple_expression)
+Shift LBRAC
+Shift INTEGER
+Reduction ( factor -> INTEGER)
+Reduction ( term -> factor)
+Shift RBRAC
+Reduction ( simple_expression -> term)
+Reduction ( expression -> simple_expression)
+Shift PLUS
+Reduction ( tail -> lambda)
+Reduction ( tail -> LBRAC expression RBRAC tail)
+Reduction ( tail -> LBRAC expression RBRAC tail)
+Reduction ( factor -> identifier tail)
+Reduction ( term -> factor)
+Reduction ( simple_expression -> term)
+Reduction ( addop -> PLUS)
+Shift REALNUMBER
+Reduction ( factor -> REALNUMBER)
+Reduction ( term -> factor)
+Shift END
+Reduction ( simple_expression -> simple_expression addop term)
+Reduction ( expression -> simple_expression)
+Reduction ( statement -> variable ASSIGNMENT expression)
+Reduction ( statement_list -> statement_list SEMICOLON statement)
+Reduction ( optional_statements -> statement_list)
+Reduction ( compound_statement -> begin optional_statements end)
+Shift DOT
+Reduction ( prog -> program identifier LPAREN identifier_list RPAREN SEMICOLON declarations subprogram_declarations compound_statement DOT)
+Parsing correctly
+*********************************************
+/PROG
+	/PROGRAM
+	/IDENTIFIER: foo
+	/(
+	/IDENTIFIER_LIST
+		/IDENTIFIER_LIST
+			/IDENTIFIER_LIST
+				/IDENTIFIER: input
+			/,
+			/IDENTIFIER: output
+		/,
+		/IDENTIFIER: error
+	/)
+	/;
+	/DECLARATIONS
+		/DECLARATIONS
+			/DECLARATIONS
+				/DECLARATIONS
+					/DECLARATIONS
+						/DECLARATIONS
+							/LAMBDA
+						/VAR
+						/IDENTIFIER_LIST
+							/IDENTIFIER_LIST
+								/IDENTIFIER_LIST
+									/IDENTIFIER: a
+								/,
+								/IDENTIFIER: b
+							/,
+							/IDENTIFIER: c
+						/:
+						/TYPE
+							/STANDARD_TYPE
+								/INTEGER_WORD
+						/;
+					/VAR
+					/IDENTIFIER_LIST
+						/IDENTIFIER_LIST
+							/IDENTIFIER: d
+						/,
+						/IDENTIFIER: e
+					/:
+					/TYPE
+						/ARRAY
+						/[
+						/INTEGER, 1
+						/..
+						/INTEGER, 10
+						/]
+						/OF
+						/TYPE
+							/STANDARD_TYPE
+								/INTEGER_WORD
+					/;
+				/VAR
+				/IDENTIFIER_LIST
+					/IDENTIFIER_LIST
+						/IDENTIFIER: g
+					/,
+					/IDENTIFIER: h
+				/:
+				/TYPE
+					/STANDARD_TYPE
+						/REAL_WORD
+				/;
+			/VAR
+			/IDENTIFIER_LIST
+				/IDENTIFIER: g
+			/:
+			/TYPE
+				/ARRAY
+				/[
+				/INTEGER, 23
+				/..
+				/INTEGER, 57
+				/]
+				/OF
+				/TYPE
+					/ARRAY
+					/[
+					/INTEGER, 23
+					/..
+					/INTEGER, 57
+					/]
+					/OF
+					/TYPE
+						/ARRAY
+						/[
+						/INTEGER, 23
+						/..
+						/INTEGER, 57
+						/]
+						/OF
+						/TYPE
+							/ARRAY
+							/[
+							/INTEGER, 23
+							/..
+							/INTEGER, 57
+							/]
+							/OF
+							/TYPE
+								/ARRAY
+								/[
+								/INTEGER, 23
+								/..
+								/INTEGER, 57
+								/]
+								/OF
+								/TYPE
+									/STANDARD_TYPE
+										/REAL_WORD
+			/;
+		/VAR
+		/IDENTIFIER_LIST
+			/IDENTIFIER: k
+		/:
+		/TYPE
+			/ARRAY
+			/[
+			/INTEGER, 23
+			/..
+			/INTEGER, 57
+			/]
+			/OF
+			/TYPE
+				/ARRAY
+				/[
+				/INTEGER, 23
+				/..
+				/INTEGER, 57
+				/]
+				/OF
+				/TYPE
+					/STANDARD_TYPE
+						/REAL_WORD
+		/;
+	/SUBDECLARATIONS
+		/LAMBDA
+	/COMPOUND_STATEMENT
+		/BEGIN
+		/OPTIONAL_STATEMENTS
+			/STATEMENT_LIST
+				/STATEMENT_LIST
+					/STATEMENT
+						/VARIABLE
+							/IDENTIFIER: a
+							/TAIL
+								/LAMBDA
+						/ASSIGNMENT
+						/EXPRESSION
+							/SIMPLE_EXPRESSION
+								/SIMPLE_EXPRESSION
+									/TERM
+										/FACTOR
+											/IDENTIFIER: a
+											/TAIL
+												/LAMBDA
+								/ADDOP
+									/+
+								/TERM
+									/FACTOR
+										/INTEGER, 1
+				/;
+				/STATEMENT
+					/VARIABLE
+						/IDENTIFIER: k
+						/TAIL
+							/[
+							/EXPRESSION
+								/SIMPLE_EXPRESSION
+									/TERM
+										/FACTOR
+											/INTEGER, 25
+							/]
+							/TAIL
+								/[
+								/EXPRESSION
+									/SIMPLE_EXPRESSION
+										/TERM
+											/FACTOR
+												/INTEGER, 20
+								/]
+								/TAIL
+									/LAMBDA
+					/ASSIGNMENT
+					/EXPRESSION
+						/SIMPLE_EXPRESSION
+							/SIMPLE_EXPRESSION
+								/TERM
+									/FACTOR
+										/IDENTIFIER: k
+										/TAIL
+											/[
+											/EXPRESSION
+												/SIMPLE_EXPRESSION
+													/TERM
+														/FACTOR
+															/INTEGER, 25
+											/]
+											/TAIL
+												/[
+												/EXPRESSION
+													/SIMPLE_EXPRESSION
+														/TERM
+															/FACTOR
+																/INTEGER, 20
+												/]
+												/TAIL
+													/LAMBDA
+							/ADDOP
+								/+
+							/TERM
+								/FACTOR
+									/REALNUMBER, 3.140000
+		/END
+	/.
