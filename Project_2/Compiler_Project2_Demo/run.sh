@@ -1,0 +1,1 @@
+cat input | ./a.out
