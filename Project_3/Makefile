@@ -24,3 +24,13 @@ compile: y.tab.c lex.yy.c
 
 clean:
 	@-rm -f ${SCANNER_C} ${PARSER_C} ${PARSER_H} a.out
+###################Run all###################
+TARGET=$(addprefix Test_result/, $(basename $(notdir $(wildcard Test_files/*.p))))
+
+.PHONY:	run_all clean_all
+
+run_all: compile ${TARGET}
+
+Test_result/%: Test_files/%.p
+	@-./a.out $< > $@_result.txt
+	@echo $@_result.txt
