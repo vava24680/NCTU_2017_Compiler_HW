@@ -1,0 +1,5 @@
+*.out
+parser
+*.tab.*
+lex.yy.c
+result*.txt
