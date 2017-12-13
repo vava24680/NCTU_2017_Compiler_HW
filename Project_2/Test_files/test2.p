@@ -12,10 +12,10 @@ end;
 
 
 begin
-    writeln('Hello, world!');
-    heloo;
-    heloo(2,3,4,2.0,4.0,2);
-    if a then begin a;  c:=a;  b;  c;  e; while 124 do v(2,5,b,d) end
-         else a := 9;
-    a := 5
+		writeln('Hello, world!');
+		heloo;
+		heloo(2,3,4,2.0,4.0,2);
+		if a then begin a;  c:=a;  b;  c;  e; while 124 do v(2,5,b,d) end
+		else a := 9;
+		a := 5
 end.

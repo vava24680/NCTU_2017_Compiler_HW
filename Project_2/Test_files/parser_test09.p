@@ -1,16 +1,17 @@
 PROGRAM foo(input, output, error) ;
 
-   var a, b : integer;
+	var c, d : integer;
 
-   // test recursive functions
-   function  sum(a: integer) : integer;
-      begin
-         if a <= 0 then sum := 0
-         else sum := a + sum(a-1)
-         // sum is the return value
-      end;
+		// test recursive functions
+		function  sum(a, b: integer; c: real) : integer;
+				var aaa : integer;
+				begin
+						if a <= 0 then sum := 0
+						else sum := a + sum(a-1)
+						// sum is the return value
+				end;
 
-   begin
-      a := sum(10);   // the result is 55.
-      b := sum(-10)   // the result is 0.
-   end.   // this is the end of the program
+		begin
+				c := sum(10);   // the result is 55.
+				d := sum(-10)   // the result is 0.
+		end.   // this is the end of the program
