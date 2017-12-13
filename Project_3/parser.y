@@ -387,6 +387,7 @@ statement :
 			block_node->modify_block_type(WHILE_BLOCK);
 			AdoptChild(while_node, $2);
 			AdoptChild(block_node, $4);
+			AdoptChild(while_node, block_node);
 			$$ = while_node;
 			//printf("Reduction ( statement -> WHILE expression DO statement)\n");
 		}
@@ -516,7 +517,7 @@ factor :
 		string temp($1.id);
 		identifier_node->set_id(temp);
 		identifier_node->set_line_no($1.line_no);
-		MakeSiblings(identifier_node, $2);
+		AdoptChild(identifier_node, $2);
 		$$ = identifier_node;
 		//printf("Reduction ( factor -> identifier tail)\n");
 	}
