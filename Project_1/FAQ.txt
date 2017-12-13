@@ -1,0 +1,19 @@
+FAQ for the scanner project, 10.2.2017
+
+Tokens are defined in the document 00README.txt. You may define your identifiers, such as including underscores in an identifier, and strings.  The example code may not inlcude all the tokens. So you need to check the complete list of tokens in the file 00README.txt.
+
+A single slash / means division.  Two slashes // mean comments. They are different.  They have to be handled separately.
+
+You also need to read two other files: semantics-of-mini-pascal.txt and MINI-PASCAL-GRAMMAR.txt. You will have to decide other details if you think the details are not defined in the speficiation. And you may change your decisions later when you need to modify your design. Come talk to me or the TA if you need.
+
+You may define a new token for string.
+
+When you define a string with a regular string, you may allow an identifier to include underscores.
+
+You may also define floating-point numbers in the scientific notations. A scientific notation should be considered to be a float token.
+
+In the first project, you need to implement a scanner using the lex tool. You should write your own lex specification or you may start from the given simplified lex specification and add your own modifications.
+
+----
+
+
