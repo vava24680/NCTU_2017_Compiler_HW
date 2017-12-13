@@ -3,7 +3,7 @@ using namespace std;
 static deque<SymbolTable*> symbol_table_stack;
 extern SymbolTable symbol_table_instance;
 extern deque<int> scope_stack;
-bool ParameterList::operator==(ParameterList &second)
+bool ParameterList::operator==(const ParameterList &second) const
 {
 	unsigned int list_size = this->list.size();
 	if(this->list.size() != second.list.size())
@@ -19,7 +19,7 @@ bool ParameterList::operator==(ParameterList &second)
 	}
 	return true;
 }
-void ParameterList::add_in_one_type(string &type)
+void ParameterList::add_in_one_type(string type)
 {
 	this->list.push_back(type);
 }
@@ -40,13 +40,14 @@ void SymbolTable::new_scope(void)
 	this->symbol_list.push_back(vector<ENTRY>());
 	this->search_list.push_back(set<string>());
 }
-bool SymbolTable::add_in_one_entry(string id, string type, int belong_scope, int dimension, ParameterList parameter_list, Node* array_type)
+bool SymbolTable::add_in_one_entry(string id, string type, string return_type, int belong_scope, int dimension, ParameterList parameter_list, Node* array_type)
 {
 	if(this->search_list[belong_scope].find(id) != this->search_list[belong_scope].end())
 		return false;
 	ENTRY temp;
 	temp.id = id;
 	temp.type = type;
+	temp.return_type = type;
 	temp.belong_scope = belong_scope;
 	temp.dimension = dimension;
 	temp.parameter_list = parameter_list;
@@ -161,7 +162,7 @@ string get_nodeType_name(int nodeType_number)
 			break;
 	}
 }
-void TraversalParameter(Node* start_node, ParameterList &parameter_list)
+void TraverseFunctionDeclareParameter(Node* start_node, ParameterList &parameter_list)
 {
 	int node_type = start_node->get_node_type();
 	string type_name = get_nodeType_name(node_type);
@@ -176,10 +177,39 @@ void TraversalParameter(Node* start_node, ParameterList &parameter_list)
 		return;
 	}
 	if(start_node->get_leftmost_child() != NULL)
-		TraversalParameter(start_node->get_leftmost_child(), parameter_list);
+		TraverseFunctionDeclareParameter(start_node->get_leftmost_child(), parameter_list);
 	if(start_node->get_rsibling() != NULL)
-		TraversalParameter(start_node->get_rsibling(), parameter_list);
+		TraverseFunctionDeclareParameter(start_node->get_rsibling(), parameter_list);
 	return;
+}
+void TraverseFunctionCallParameter(Node* start_node, ParameterList &parameter_list)
+{
+	while(start_node != NULL)
+	{
+		int node_type_number = start_node->get_node_type();
+		switch (node_type_number)
+		{
+			case NODE_INT_WORD:
+			case NODE_REAL_WORD:
+			case NODE_STRING_WORD:
+			{
+				parameter_list.add_in_one_type(start_node->get_data_type());
+				break;
+			}
+			case OP_SUB:
+			case OP_ADD:
+			{
+				parameter_list.add_in_one_type(start_node->get_leftmost_child()->get_data_type());
+				break;
+			}
+			default:
+			{
+				parameter_list.add_in_one_type(start_node->get_data_type());
+				break;
+			}
+		}
+		start_node = start_node->get_rsibling();
+	}
 }
 string get_array_basic_DataType(Node* array_type_head)
 {
@@ -192,6 +222,7 @@ string get_array_basic_DataType(Node* array_type_head)
 }
 void traversal(Node* node)
 {
+	cout << "Node type : " << node->get_node_type() << endl;
 	if(node == NULL)
 		return;
 	if(!node->get_is_traversed())
@@ -207,11 +238,11 @@ void traversal(Node* node)
 			case NODE_PROGRAM:
 			{
 				Node* child = node->get_leftmost_child();
-				symbol_table_instance.add_in_one_entry(child->get_id(), "INITIAL", scope_stack.front(), 0, ParameterList(), NULL);
+				symbol_table_instance.add_in_one_entry(child->get_id(), "INITIAL", "NONE", scope_stack.front(), 0, ParameterList(), NULL);
 				child = child->get_leftmost_child();
 				do
 				{
-					symbol_table_instance.add_in_one_entry(child->get_id(), "INITIAL", scope_stack.front(), 0, ParameterList(), NULL);
+					symbol_table_instance.add_in_one_entry(child->get_id(), "INITIAL", "NONE", scope_stack.front(), 0, ParameterList(), NULL);
 					child = child->get_rsibling();
 				} while(child != NULL);
 				break;
@@ -220,16 +251,17 @@ void traversal(Node* node)
 			{
 				ParameterList parameter_list;
 				Node* lparen_node = node->get_leftmost_child()->get_rsibling()->get_leftmost_child();
-				TraversalParameter(lparen_node->get_leftmost_child(), parameter_list);
-				symbol_table_instance.add_in_one_entry(node->get_leftmost_child()->get_id(), "PROCEDURE", scope_stack.front(), -1, parameter_list, NULL);
+				string return_type(get_nodeType_name(node->get_leftmost_child()->get_node_type()));
+				TraverseFunctionDeclareParameter(lparen_node->get_leftmost_child(), parameter_list);
+				symbol_table_instance.add_in_one_entry(node->get_leftmost_child()->get_id(), "PROCEDURE", return_type, scope_stack.front(), -1, parameter_list, NULL);
 				break;
 			}
 			case NODE_FUNCTION:
 			{
 				ParameterList parameter_list;
 				Node* lparen_node = node->get_leftmost_child()->get_rsibling()->get_leftmost_child();
-				TraversalParameter(lparen_node->get_leftmost_child(), parameter_list);
-				symbol_table_instance.add_in_one_entry(node->get_leftmost_child()->get_leftmost_child()->get_id(), "FUNCTION", scope_stack.front(), -1, parameter_list, NULL);
+				TraverseFunctionDeclareParameter(lparen_node->get_leftmost_child(), parameter_list);
+				symbol_table_instance.add_in_one_entry(node->get_leftmost_child()->get_leftmost_child()->get_id(), "FUNCTION", "NONE", scope_stack.front(), -1, parameter_list, NULL);
 				node->get_leftmost_child()->set_is_traversed();
 				break;
 			}
@@ -242,7 +274,7 @@ void traversal(Node* node)
 				{
 					int type = node->get_node_type();
 					string s_temp;
-					if(! symbol_table_instance.add_in_one_entry(temp->get_id(), get_nodeType_name(type), scope_stack.front(), 0, ParameterList(), NULL) )
+					if(! symbol_table_instance.add_in_one_entry(temp->get_id(), get_nodeType_name(type), "NONE", scope_stack.front(), 0, ParameterList(), NULL) )
 						cout << "[ERROR] Redefined variable " << temp->get_id() << " at line " << temp->get_line_no() << endl;
 					temp = temp->get_rsibling();
 				} while(temp != NULL);
@@ -263,7 +295,7 @@ void traversal(Node* node)
 				{
 					int type = node->get_node_type();
 					string s_temp;
-					if(! symbol_table_instance.add_in_one_entry(temp->get_id(), get_nodeType_name(type), scope_stack.front(), array_dimension, ParameterList(), node->get_node_array_type() ) )
+					if(! symbol_table_instance.add_in_one_entry(temp->get_id(), get_nodeType_name(type), "NONE", scope_stack.front(), array_dimension, ParameterList(), node->get_node_array_type() ) )
 						cout << "[ERROR] Redefined variable " << temp->get_id() << " at line " << temp->get_line_no() << endl;
 					temp = temp->get_rsibling();
 				} while(temp != NULL);
@@ -271,26 +303,52 @@ void traversal(Node* node)
 			}
 			case NODE_ASSIGNMENT:
 			{
+				cout << "ASSIGNMENT" << endl;
 				Node* left_node = node->get_leftmost_child();
 				Node* right_node = node->get_leftmost_child()->get_rsibling();
 				if( symbol_table_instance.search_entry(node->get_leftmost_child()->get_id()) )
 				{
+					cout << "Before run right_node" << endl;
 					traversal(right_node); //Run expression
+					cout << "After run right_node" << endl;
 					if("ARRAY" != symbol_table_instance.get_entry_DataType(left_node))
 					{//LHS is not a array type identifier
 						left_node->set_data_type(symbol_table_instance.get_entry_DataType(left_node));
-						if(! DataTypeChecking(left_node, right_node))
-							cout << "[ERROR] Type error at line " << left_node->get_line_no() << endl;
+						if(right_node->get_node_type() == NODE_IDENTIFIER && right_node->get_leftmost_child() != NULL)
+						{
+							cout << "right_node is identifier" << endl;
+							if(right_node->get_leftmost_child()->get_node_type() == NODE_LPAREN)
+							{//RHS is function call
+								cout << "right_node is array" << endl;
+								ParameterList function_call_parameter_list;
+								ParameterList test;
+								Node* lparen_node = right_node->get_leftmost_child();
+								TraverseFunctionCallParameter(lparen_node->get_leftmost_child(), function_call_parameter_list);
+								if(function_call_parameter_list==(symbol_table_instance.get_one_entry(right_node)->parameter_list))
+									cout << "[ERROR] Function Parameter not matched at line " << right_node->get_line_no() << endl;
+							}
+							else
+							{
+								cout << "right_node is normal" << endl;
+								if(! DataTypeChecking(left_node, right_node))
+									cout << "[ERROR] Type error at line " << left_node->get_line_no() << endl;
+							}
+						}
+						else
+							if(! DataTypeChecking(left_node, right_node))
+								cout << "[ERROR] Type error at line " << left_node->get_line_no() << endl;
 					}
 					else
-					{//RHS is a array type identifier
+					{//LHS is a array type identifier
+						cout << "It's a array" << endl;
 						int current_dimension = 0;
-						Node* temp = left_node;
-						while(temp->get_leftmost_child()->get_node_type() != NODE_LAMBDA)
-						{//Calculate LHS dimension
+						Node* temp = left_node->get_leftmost_child();
+						while(temp != NULL)
+						{
 							current_dimension++;
-							temp = temp->get_leftmost_child();
+							temp = temp->get_rsibling();
 						}
+						cout << "DONE" << endl;
 						if(current_dimension != symbol_table_instance.get_one_entry(left_node)->dimension)//Dimension not match
 							cout << "[ERROR] Dimension error " << left_node->get_line_no() << endl;
 						else
@@ -415,10 +473,26 @@ void traversal(Node* node)
 			}
 			case NODE_IDENTIFIER:
 			{
+				cout << "IDENTIFIER NODE HERE" << endl;
 				if(! symbol_table_instance.search_entry(node->get_id()))
 					cout << "[ERROR] Undeclared Variable \"" << node->get_id()  << "\" at line " << node->get_line_no() << endl;
 				else
-					node->set_data_type(symbol_table_instance.get_entry_DataType(node));
+				{
+					if(node->get_leftmost_child()==NULL)
+						node->set_data_type(symbol_table_instance.get_entry_DataType(node));
+					else
+					{
+						if(node->get_leftmost_child()->get_node_type() == NODE_LPAREN)
+						{
+							Node* lparen_node = node->get_leftmost_child();
+							ParameterList function_call_parameter_list;
+							TraverseFunctionCallParameter(lparen_node->get_leftmost_child(), function_call_parameter_list);
+							if(function_call_parameter_list==(symbol_table_instance.get_one_entry(node)->parameter_list))
+								cout << "[ERROR] Function Parameter not matched at line " << node->get_line_no() << endl;
+							lparen_node->set_is_traversed();
+						}
+					}
+				}
 				break;
 			}
 		}

@@ -17,8 +17,8 @@ class ParameterList
 {
 public:
 	//ParameterList();
-	bool operator==(ParameterList &second);
-	void add_in_one_type(string &type);
+	bool operator==(const ParameterList &second) const;
+	void add_in_one_type(string type);
 	void PrintAll(void) const;
 private:
 	vector<string> list;
@@ -28,6 +28,7 @@ typedef struct symbol_table_entry
 {
 	string id;
 	string type;
+	string return_type;
 	int belong_scope;
 	int dimension;
 	ParameterList parameter_list;
@@ -40,7 +41,7 @@ public:
 	SymbolTable();
 public:
 	void new_scope(void);
-	bool add_in_one_entry(string id, string type, int belong_scope, int dimension, ParameterList parameter_list, Node* array_type);
+	bool add_in_one_entry(string id, string type, string return_type, int belong_scope, int dimension, ParameterList parameter_list, Node* array_type);
 	bool search_entry(string id);
 	bool search_entry(string id, int current_scope);
 	void printSymbolTable(void) const;
@@ -54,7 +55,7 @@ private:
 };
 bool DataTypeChecking(Node* first_node, Node* second_node);
 string get_nodeType_name(int nodeType_number);
-void TraversalParameter(Node* start_node, ParameterList &parameter_list);
+void TraverseFunctionDeclareParameter(Node* start_node, ParameterList &parameter_list);
 string get_array_basic_DataType(Node* array_type_head);
 void traversal(Node* node_start);
 #endif
