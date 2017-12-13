@@ -3,6 +3,7 @@ using namespace std;
 static deque<SymbolTable*> symbol_table_stack;
 extern SymbolTable symbol_table_instance;
 extern deque<int> scope_stack;
+//Const Reference since the Parameter delivered in is a intermidiate value
 bool ParameterList::operator==(const ParameterList &second) const
 {
 	unsigned int list_size = this->list.size();
@@ -22,6 +23,10 @@ bool ParameterList::operator==(const ParameterList &second) const
 void ParameterList::add_in_one_type(string type)
 {
 	this->list.push_back(type);
+}
+unsigned int ParameterList::get_numbers_parameter(void) const
+{
+	return this->list.size();
 }
 void ParameterList::PrintAll(void) const
 {
@@ -56,7 +61,7 @@ bool SymbolTable::add_in_one_entry(string id, string type, string return_type, i
 	(this->search_list[belong_scope]).insert(id);
 	return true;
 }
-bool SymbolTable::search_entry(string id)
+bool SymbolTable::search_entry(string id) const
 {
 	for(int i = 0; i < scope_stack.size(); i++)
 	{
@@ -81,7 +86,7 @@ void SymbolTable::printSymbolTable(void) const
 	}
 }
 
-string SymbolTable::get_entry_DataType(Node* node)
+string SymbolTable::get_ExistingEntry_DataType(Node* node) const
 {
 	for(unsigned int i = 0;i < scope_stack.size();i++)
 	{
@@ -94,7 +99,8 @@ string SymbolTable::get_entry_DataType(Node* node)
 		}
 	}
 }
-vector<ENTRY>::const_iterator SymbolTable::get_one_entry(Node* node) const
+
+vector<ENTRY>::const_iterator SymbolTable::get_existing_entry(Node* node) const
 {
 	for(unsigned int i = 0;i < scope_stack.size();i++)
 	{
@@ -202,6 +208,12 @@ void TraverseFunctionCallParameter(Node* start_node, ParameterList &parameter_li
 				parameter_list.add_in_one_type(start_node->get_leftmost_child()->get_data_type());
 				break;
 			}
+			case NODE_IDENTIFIER:
+			{
+				string temp(symbol_table_instance.get_ExistingEntry_DataType(start_node));
+				parameter_list.add_in_one_type(temp);
+				break;
+			}
 			default:
 			{
 				parameter_list.add_in_one_type(start_node->get_data_type());
@@ -220,9 +232,29 @@ string get_array_basic_DataType(Node* array_type_head)
 	}
 	return get_nodeType_name(temp->get_node_type());
 }
+unsigned int calculate_array_current_dimension(Node* node)
+{
+	Node* temp = node->get_leftmost_child();
+	int current_dimension = 0;
+	cout << "temp : " << temp << endl;
+	while(temp->get_node_type() != NODE_LAMBDA)
+	{
+		current_dimension++;
+		temp = temp->get_rsibling();
+	}
+	return current_dimension;
+}
+bool array_current_dimesion_check(Node* node)
+{
+	const int dimension = symbol_table_instance.get_existing_entry(node)->dimension;
+	if(calculate_array_current_dimension(node) == dimension)
+		return true;
+	else
+		return false;
+}
 void traversal(Node* node)
 {
-	cout << "Node type : " << node->get_node_type() << endl;
+	//cout << "Node type : " << node->get_node_type() << endl;
 	if(node == NULL)
 		return;
 	if(!node->get_is_traversed())
@@ -245,6 +277,7 @@ void traversal(Node* node)
 					symbol_table_instance.add_in_one_entry(child->get_id(), "INITIAL", "NONE", scope_stack.front(), 0, ParameterList(), NULL);
 					child = child->get_rsibling();
 				} while(child != NULL);
+				node->get_leftmost_child()->set_is_traversed();
 				break;
 			}
 			case NODE_PROCEDURE:
@@ -254,6 +287,7 @@ void traversal(Node* node)
 				string return_type(get_nodeType_name(node->get_leftmost_child()->get_node_type()));
 				TraverseFunctionDeclareParameter(lparen_node->get_leftmost_child(), parameter_list);
 				symbol_table_instance.add_in_one_entry(node->get_leftmost_child()->get_id(), "PROCEDURE", return_type, scope_stack.front(), -1, parameter_list, NULL);
+				node->get_leftmost_child()->set_is_traversed();
 				break;
 			}
 			case NODE_FUNCTION:
@@ -299,66 +333,34 @@ void traversal(Node* node)
 						cout << "[ERROR] Redefined variable " << temp->get_id() << " at line " << temp->get_line_no() << endl;
 					temp = temp->get_rsibling();
 				} while(temp != NULL);
+				return;
 				break;
 			}
 			case NODE_ASSIGNMENT:
 			{
-				cout << "ASSIGNMENT" << endl;
+				//cout << "ASSIGNMENT" << endl;
 				Node* left_node = node->get_leftmost_child();
 				Node* right_node = node->get_leftmost_child()->get_rsibling();
 				if( symbol_table_instance.search_entry(node->get_leftmost_child()->get_id()) )
 				{
-					cout << "Before run right_node" << endl;
 					traversal(right_node); //Run expression
-					cout << "After run right_node" << endl;
-					if("ARRAY" != symbol_table_instance.get_entry_DataType(left_node))
+					if("ARRAY" != symbol_table_instance.get_ExistingEntry_DataType(left_node))
 					{//LHS is not a array type identifier
-						left_node->set_data_type(symbol_table_instance.get_entry_DataType(left_node));
-						if(right_node->get_node_type() == NODE_IDENTIFIER && right_node->get_leftmost_child() != NULL)
-						{
-							cout << "right_node is identifier" << endl;
-							if(right_node->get_leftmost_child()->get_node_type() == NODE_LPAREN)
-							{//RHS is function call
-								cout << "right_node is array" << endl;
-								ParameterList function_call_parameter_list;
-								ParameterList test;
-								Node* lparen_node = right_node->get_leftmost_child();
-								TraverseFunctionCallParameter(lparen_node->get_leftmost_child(), function_call_parameter_list);
-								if(function_call_parameter_list==(symbol_table_instance.get_one_entry(right_node)->parameter_list))
-									cout << "[ERROR] Function Parameter not matched at line " << right_node->get_line_no() << endl;
-							}
-							else
-							{
-								cout << "right_node is normal" << endl;
-								if(! DataTypeChecking(left_node, right_node))
-									cout << "[ERROR] Type error at line " << left_node->get_line_no() << endl;
-							}
-						}
-						else
-							if(! DataTypeChecking(left_node, right_node))
-								cout << "[ERROR] Type error at line " << left_node->get_line_no() << endl;
+						left_node->set_data_type(symbol_table_instance.get_ExistingEntry_DataType(left_node));
+						if(calculate_array_current_dimension(left_node))
+							cout << "[ERROR] " << left_node->get_id() << " at line " << left_node->get_line_no() << " is not array type" << endl;
+						if(! DataTypeChecking(left_node, right_node))
+							cout << "[ERROR] Type error at line " << left_node->get_line_no() << endl;
 					}
 					else
 					{//LHS is a array type identifier
-						cout << "It's a array" << endl;
 						int current_dimension = 0;
-						Node* temp = left_node->get_leftmost_child();
-						while(temp != NULL)
-						{
-							current_dimension++;
-							temp = temp->get_rsibling();
-						}
-						cout << "DONE" << endl;
-						if(current_dimension != symbol_table_instance.get_one_entry(left_node)->dimension)//Dimension not match
+						if(! array_current_dimesion_check(left_node))//Dimension not match
 							cout << "[ERROR] Dimension error " << left_node->get_line_no() << endl;
 						else
 						{//Dimension match
-							if(get_array_basic_DataType(symbol_table_instance.get_one_entry(left_node)->array_type) != right_node->get_data_type()) //Basic type
+							if(get_array_basic_DataType(symbol_table_instance.get_existing_entry(left_node)->array_type) != right_node->get_data_type()) //Basic type
 								cout << "[ERROR] Type error at line " << left_node->get_line_no() << endl;
-							else
-							{
-
-							}
 						}
 					}
 				}
@@ -368,8 +370,8 @@ void traversal(Node* node)
 				}
 				left_node->set_is_traversed();
 				right_node->set_is_traversed();
-				if(node->get_rsibling() == NULL)
-					return;
+				/*if(node->get_rsibling() == NULL)
+					return;*/
 				break;
 			}
 			case OP_ADD:
@@ -385,10 +387,26 @@ void traversal(Node* node)
 					if(!symbol_table_instance.search_entry(left_child->get_id()))
 						cout << "[ERROR] Undeclared Variable \"" << left_child->get_leftmost_child()->get_id()  << "\" at line " << left_child->get_line_no() << endl;
 					else
-						lhs_type = symbol_table_instance.get_entry_DataType(left_child);
+					{
+						if(symbol_table_instance.get_ExistingEntry_DataType(left_child) == "ARRAY")
+						{
+							if(!array_current_dimesion_check(left_child))
+								cout << "[ERROR] Dimension error " << left_child->get_line_no() << endl;
+							else
+								lhs_type = get_array_basic_DataType(symbol_table_instance.get_existing_entry(left_child)->array_type);
+						}
+						else
+						{
+							if(calculate_array_current_dimension(left_child))
+								cout << "[ERROR] " << left_child->get_id() << " at line " << left_child->get_line_no() << " is not array type" << endl;
+							else
+								lhs_type = symbol_table_instance.get_ExistingEntry_DataType(left_child);
+						}
+					}
 				}
 				else
 					lhs_type = left_child->get_data_type();
+
 				if(right_child == NULL)
 					rhs_type = lhs_type;
 				else if(right_child->get_node_type() == NODE_IDENTIFIER)
@@ -396,7 +414,22 @@ void traversal(Node* node)
 					if(!symbol_table_instance.search_entry(right_child->get_id()))
 						cout << "[ERROR] Undeclared Variable \"" << right_child->get_leftmost_child()->get_id()  << "\" at line " << right_child->get_line_no() << endl;
 					else
-						rhs_type = symbol_table_instance.get_entry_DataType(right_child);
+					{
+						if(symbol_table_instance.get_ExistingEntry_DataType(right_child) == "ARRAY")
+						{
+							if(!array_current_dimesion_check(right_child))
+								cout << "[ERROR] Dimension error " << right_child->get_line_no() << endl;
+							else
+								rhs_type = get_array_basic_DataType(symbol_table_instance.get_existing_entry(right_child)->array_type);
+						}
+						else
+						{
+							if(calculate_array_current_dimension(right_child))
+								cout << "[ERROR] " << right_child->get_id() << " at line " << right_child->get_line_no() << " is not array type" << endl;
+							else
+								rhs_type = symbol_table_instance.get_ExistingEntry_DataType(right_child);
+						}
+					}
 				}
 				else
 					rhs_type = right_child->get_data_type();
@@ -419,16 +452,47 @@ void traversal(Node* node)
 					if(!symbol_table_instance.search_entry(left_child->get_id()))
 						cout << "[ERROR] Undeclared Variable \"" << left_child->get_leftmost_child()->get_id()  << "\" at line " << left_child->get_line_no() << endl;
 					else
-						lhs_type = symbol_table_instance.get_entry_DataType(left_child);
+					{
+						if(symbol_table_instance.get_ExistingEntry_DataType(left_child) == "ARRAY")
+						{
+							if(!array_current_dimesion_check(left_child))
+								cout << "[ERROR] Dimension error " << left_child->get_line_no() << endl;
+							else
+								lhs_type = get_array_basic_DataType(symbol_table_instance.get_existing_entry(left_child)->array_type);
+						}
+						else
+						{
+							if(calculate_array_current_dimension(left_child))
+								cout << "[ERROR] " << left_child->get_id() << " at line " << left_child->get_line_no() << " is not array type" << endl;
+							else
+								lhs_type = symbol_table_instance.get_ExistingEntry_DataType(left_child);
+						}
+					}
 				}
 				else
 					lhs_type = left_child->get_data_type();
+
 				if(right_child->get_node_type() == NODE_IDENTIFIER)
 				{
 					if(!symbol_table_instance.search_entry(right_child->get_id()))
 						cout << "[ERROR] Undeclared Variable \"" << right_child->get_leftmost_child()->get_id()  << "\" at line " << right_child->get_line_no() << endl;
 					else
-						rhs_type = symbol_table_instance.get_entry_DataType(right_child);
+					{
+						if(symbol_table_instance.get_ExistingEntry_DataType(right_child) == "ARRAY")
+						{
+							if(!array_current_dimesion_check(right_child))
+								cout << "[ERROR] Dimension error " << right_child->get_line_no() << endl;
+							else
+								rhs_type = get_array_basic_DataType(symbol_table_instance.get_existing_entry(right_child)->array_type);
+						}
+						else
+						{
+							if(calculate_array_current_dimension(right_child))
+								cout << "[ERROR] " << right_child->get_id() << " at line " << right_child->get_line_no() << " is not array type" << endl;
+							else
+								rhs_type = symbol_table_instance.get_ExistingEntry_DataType(right_child);
+						}
+					}
 				}
 				else
 					rhs_type = right_child->get_data_type();
@@ -451,16 +515,47 @@ void traversal(Node* node)
 					if(!symbol_table_instance.search_entry(left_child->get_id()))
 						cout << "[ERROR] Undeclared Variable \"" << left_child->get_leftmost_child()->get_id()  << "\" at line " << left_child->get_line_no() << endl;
 					else
-						lhs_type = symbol_table_instance.get_entry_DataType(left_child);
+					{
+						if(symbol_table_instance.get_ExistingEntry_DataType(left_child) == "ARRAY")
+						{
+							if(!array_current_dimesion_check(left_child))
+								cout << "[ERROR] Dimension error " << left_child->get_line_no() << endl;
+							else
+								lhs_type = get_array_basic_DataType(symbol_table_instance.get_existing_entry(left_child)->array_type);
+						}
+						else
+						{
+							if(calculate_array_current_dimension(left_child))
+								cout << "[ERROR] " << left_child->get_id() << " at line " << left_child->get_line_no() << " is not array type" << endl;
+							else
+								lhs_type = symbol_table_instance.get_ExistingEntry_DataType(left_child);
+						}
+					}
 				}
 				else
 					lhs_type = left_child->get_data_type();
+
 				if(right_child->get_node_type() == NODE_IDENTIFIER)
 				{
 					if(!symbol_table_instance.search_entry(right_child->get_id()))
 						cout << "[ERROR] Undeclared Variable \"" << right_child->get_leftmost_child()->get_id()  << "\" at line " << right_child->get_line_no() << endl;
 					else
-						rhs_type = symbol_table_instance.get_entry_DataType(right_child);
+					{
+						if(symbol_table_instance.get_ExistingEntry_DataType(right_child) == "ARRAY")
+						{
+							if(!array_current_dimesion_check(right_child))
+								cout << "[ERROR] Dimension error " << right_child->get_line_no() << endl;
+							else
+								rhs_type = get_array_basic_DataType(symbol_table_instance.get_existing_entry(right_child)->array_type);
+						}
+						else
+						{
+							if(calculate_array_current_dimension(right_child))
+								cout << "[ERROR] " << right_child->get_id() << " at line " << right_child->get_line_no() << " is not array type" << endl;
+							else
+								rhs_type = symbol_table_instance.get_ExistingEntry_DataType(right_child);
+						}
+					}
 				}
 				else
 					rhs_type = right_child->get_data_type();
@@ -473,13 +568,12 @@ void traversal(Node* node)
 			}
 			case NODE_IDENTIFIER:
 			{
-				cout << "IDENTIFIER NODE HERE" << endl;
 				if(! symbol_table_instance.search_entry(node->get_id()))
 					cout << "[ERROR] Undeclared Variable \"" << node->get_id()  << "\" at line " << node->get_line_no() << endl;
 				else
 				{
 					if(node->get_leftmost_child()==NULL)
-						node->set_data_type(symbol_table_instance.get_entry_DataType(node));
+						node->set_data_type(symbol_table_instance.get_ExistingEntry_DataType(node));
 					else
 					{
 						if(node->get_leftmost_child()->get_node_type() == NODE_LPAREN)
@@ -487,7 +581,7 @@ void traversal(Node* node)
 							Node* lparen_node = node->get_leftmost_child();
 							ParameterList function_call_parameter_list;
 							TraverseFunctionCallParameter(lparen_node->get_leftmost_child(), function_call_parameter_list);
-							if(function_call_parameter_list==(symbol_table_instance.get_one_entry(node)->parameter_list))
+							if(!(function_call_parameter_list==(symbol_table_instance.get_existing_entry(node)->parameter_list)))
 								cout << "[ERROR] Function Parameter not matched at line " << node->get_line_no() << endl;
 							lparen_node->set_is_traversed();
 						}

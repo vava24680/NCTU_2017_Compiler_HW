@@ -19,6 +19,7 @@ public:
 	//ParameterList();
 	bool operator==(const ParameterList &second) const;
 	void add_in_one_type(string type);
+	unsigned int get_numbers_parameter(void) const;
 	void PrintAll(void) const;
 private:
 	vector<string> list;
@@ -42,11 +43,10 @@ public:
 public:
 	void new_scope(void);
 	bool add_in_one_entry(string id, string type, string return_type, int belong_scope, int dimension, ParameterList parameter_list, Node* array_type);
-	bool search_entry(string id);
-	bool search_entry(string id, int current_scope);
+	bool search_entry(string id) const;
 	void printSymbolTable(void) const;
-	string get_entry_DataType(Node* node);
-	vector<ENTRY>::const_iterator get_one_entry(Node* node) const;
+	string get_ExistingEntry_DataType(Node* node) const;
+	vector<ENTRY>::const_iterator get_existing_entry(Node* node) const;
 public:
 	int get_total_scope(void) const;
 private:
