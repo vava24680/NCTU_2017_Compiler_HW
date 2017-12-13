@@ -8,6 +8,7 @@
 #include <climits>
 #include <deque>
 #include <set>
+#include <iomanip>
 #include "node.h"
 using namespace std;
 typedef map<string, int>::iterator MAPITERATOR;

@@ -68,12 +68,14 @@ bool SymbolTable::search_entry(string id)
 void SymbolTable::printSymbolTable(void) const
 {
 	unsigned int symbol_list_size = this->symbol_list.size();
-	cout << "Name\tType\tScope" << endl;
+	cout.setf(iostream::left);
+	cout << setw(10) << "Name" << setw(10) << "Type" << setw(10) << "Scope" << setw(10) << "Dimension" << endl;
 	for(unsigned int i = 0; i < symbol_list_size; i++)
 	{
 		for(unsigned int j = 0; j < this->symbol_list[i].size(); j++)
 		{
-			cout << this->symbol_list[i][j].id << "\t" << this->symbol_list[i][j].type << "\t" << this->symbol_list[i][j].belong_scope << "\t" << this->symbol_list[i][j].dimension << endl;
+			cout.setf(iostream::left);
+			cout << setw(10) << this->symbol_list[i][j].id << setw(10) << this->symbol_list[i][j].type << setw(10) << this->symbol_list[i][j].belong_scope << setw(10) << this->symbol_list[i][j].dimension << endl;
 		}
 	}
 }
@@ -200,6 +202,18 @@ void traversal(Node* node)
 			{
 				symbol_table_instance.new_scope();
 				scope_stack.push_front(symbol_table_instance.get_total_scope() - 1);
+				break;
+			}
+			case NODE_PROGRAM:
+			{
+				Node* child = node->get_leftmost_child();
+				symbol_table_instance.add_in_one_entry(child->get_id(), "INITIAL", scope_stack.front(), 0, ParameterList(), NULL);
+				child = child->get_leftmost_child();
+				do
+				{
+					symbol_table_instance.add_in_one_entry(child->get_id(), "INITIAL", scope_stack.front(), 0, ParameterList(), NULL);
+					child = child->get_rsibling();
+				} while(child != NULL);
 				break;
 			}
 			case NODE_PROCEDURE:
