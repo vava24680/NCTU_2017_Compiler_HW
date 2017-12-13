@@ -252,6 +252,7 @@ subprogram_head :
 			string temp($2.id);
 			identifier_node->set_id(temp);
 			identifier_node->set_line_no($2.line_no);
+			identifier_node->set_data_type("PROCEDURE");
 			AdoptChild(block_node, $3);
 			AdoptChild(procedure_node, identifier_node);
 			AdoptChild(procedure_node, block_node);
@@ -262,9 +263,9 @@ subprogram_head :
 arguments :
 	LPAREN parameter_list RPAREN
 	{
-		Node* node_lparen = newNode(NODE_LPAREN);
-		AdoptChild(node_lparen, $2);
-		$$ = node_lparen;
+		Node* lparen_node = newNode(NODE_LPAREN);
+		AdoptChild(lparen_node, $2);
+		$$ = lparen_node;
 		//printf("Reduction ( arguments -> LPAREN parameter_list RPAREN)\n");
 	}
 	|
@@ -411,7 +412,7 @@ variable :
 tail :
 	LBRAC expression RBRAC tail
 	{
-		AdoptChild($2, $4);
+		MakeSiblings($2, $4);
 		$$ = $2;
 		//printf("Reduction ( tail -> LBRAC expression RBRAC tail)\n");
 	}
@@ -435,12 +436,14 @@ procedure_statement :
 		IDENTIFIER LPAREN expression_list RPAREN
 		{
 			Node* identifier_node = newNode(NODE_IDENTIFIER);
+			Node* lparen_node = newNode(NODE_LPAREN);
 			string temp($1.id);
 			identifier_node->set_id(temp);
 			identifier_node->set_line_no($1.line_no);
-			AdoptChild(identifier_node, $3);
+			AdoptChild(lparen_node, $3);
+			AdoptChild(identifier_node, lparen_node);
 			$$ = identifier_node;
-			//printf("Reduction ( procedure_statement -> identifier LPAREN expression_list RPAREN)\n");
+			printf("Reduction ( procedure_statement -> identifier LPAREN expression_list RPAREN)\n");
 		};
 
 expression_list :
@@ -521,10 +524,12 @@ factor :
 		IDENTIFIER LPAREN expression_list RPAREN
 		{
 			Node* identifier_node = newNode(NODE_IDENTIFIER);
+			Node* lparen_node = newNode(NODE_LPAREN);
 			string temp($1.id);
 			identifier_node->set_id(temp);
 			identifier_node->set_line_no($1.line_no);
-			MakeSiblings(identifier_node, $3);
+			AdoptChild(lparen_node, $3);
+			AdoptChild(identifier_node, lparen_node);
 			$$ = identifier_node;
 			//printf("Reduction ( factor -> identifier LPAREN expression_list RPAREN)\n");
 		}
