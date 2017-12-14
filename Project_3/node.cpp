@@ -14,7 +14,7 @@ Node::Node(int node_type)
 	this->rsibling = NULL;
 	this->block_type = NotBlock;
 	this->is_traversed = false;
-	this->line_no = 600;
+	this->line_no = 0;
 	this->array_type = NULL;
 }
 
