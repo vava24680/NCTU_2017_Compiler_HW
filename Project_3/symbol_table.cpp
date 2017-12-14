@@ -305,6 +305,73 @@ bool array_current_dimesion_check(Node* node)
 	else
 		return false;
 }
+bool parse_identifier_node_in_expression(Node* identifier_node)
+{
+	bool result;
+	if(!symbol_table_instance.search_entry(identifier_node->get_id()))
+	{
+		cout << "[ERROR] Undeclared Variable \"" << identifier_node->get_id()  << "\" at line " << identifier_node->get_line_no() << endl;
+		result = false;
+	}
+	if(identifier_node->get_leftmost_child() == NULL)
+	{
+		identifier_node->set_data_type(symbol_table_instance.get_ExistingEntry_DataType(identifier_node));
+		result = true;
+	}
+	else
+	{
+		/*Node* lparen_node = node->get_leftmost_child();
+		ParameterList function_call_parameter_list;
+		TraverseFunctionCallParameter(lparen_node->get_leftmost_child(), function_call_parameter_list);
+		if(!(function_call_parameter_list==(symbol_table_instance.get_existing_entry(node)->parameter_list)))
+			cout << "[ERROR] Function Parameter not matched at line " << node->get_line_no() << endl;
+		lparen_node->set_is_traversed();*/
+		if(identifier_node->get_leftmost_child()->get_node_type() == NODE_LPAREN)
+		{
+			Node* lparen_node = identifier_node->get_leftmost_child();
+			ParameterList FunctionProcedure_call_parameter_list;
+			TraverseFunctionCallParameter(lparen_node->get_leftmost_child(), FunctionProcedure_call_parameter_list);
+			if(symbol_table_instance.get_ExistingEntry_DataType(identifier_node)=="PROCEDURE")
+			{
+				if(!(FunctionProcedure_call_parameter_list==(symbol_table_instance.get_existing_entry(identifier_node)->parameter_list)))
+				{
+					cout << "[ERROR] Procedure Parameter not matched at line " << identifier_node->get_line_no() << endl;
+					result = false;
+				}
+				else
+					result = true;
+			}
+			else
+			{
+				if(!(FunctionProcedure_call_parameter_list==(symbol_table_instance.get_existing_entry(identifier_node)->parameter_list)))
+				{
+					cout << "[ERROR] Function Parameter not matched at line " << identifier_node->get_line_no() << endl;
+					result = false;
+				}
+				else
+					result = true;
+			}
+			lparen_node->set_is_traversed();
+		}
+		else
+		{//Array
+			/*
+			if(!array_current_dimesion_check(left_child))
+				cout << "[ERROR] Dimension error " << left_child->get_line_no() << endl;
+			else
+				lhs_type = get_array_basic_DataType(symbol_table_instance.get_existing_entry(left_child)->array_type);
+				*/
+			if(!array_current_dimesion_check(identifier_node))
+			{
+				cout << "[ERROR] Dimension error " << identifier_node->get_line_no() << endl;
+				result = false;
+			}
+			else
+				result = true;
+		}
+	}
+	return result;
+}
 void traversal(Node* node)
 {
 	//cout << "Node type : " << node->get_node_type() << endl;
@@ -337,7 +404,6 @@ void traversal(Node* node)
 			{
 				ParameterList parameter_list;
 				Node* lparen_node = node->get_leftmost_child()->get_rsibling()->get_leftmost_child();
-				string return_type(get_nodeType_name(node->get_leftmost_child()->get_node_type()));
 				TraverseFunctionDeclareParameter(lparen_node->get_leftmost_child(), parameter_list);
 				symbol_table_instance.add_in_one_entry(node->get_leftmost_child()->get_id(), "PROCEDURE", "NONE", scope_stack.front(), -1, parameter_list, NULL);
 				node->get_leftmost_child()->set_is_traversed();
@@ -392,11 +458,14 @@ void traversal(Node* node)
 			}
 			case NODE_ASSIGNMENT:
 			{
+				/***************************************************************************
+				 *At the LHS of ASSIGNMENT Node, it can only be variable or an array entry.*
+				 ***************************************************************************/
 				//cout << "ASSIGNMENT" << endl;
 				Node* left_node = node->get_leftmost_child();
 				Node* right_node = node->get_leftmost_child()->get_rsibling();
 				if( symbol_table_instance.search_entry(node->get_leftmost_child()->get_id()) )
-				{
+				{//If the variable exists
 					traversal(right_node); //Run expression
 					if("ARRAY" != symbol_table_instance.get_ExistingEntry_DataType(left_node))
 					{//LHS is not a array type identifier
@@ -424,8 +493,6 @@ void traversal(Node* node)
 				}
 				left_node->set_is_traversed();
 				right_node->set_is_traversed();
-				/*if(node->get_rsibling() == NULL)
-					return;*/
 				break;
 			}
 			case OP_ADD:
@@ -434,13 +501,11 @@ void traversal(Node* node)
 				Node* left_child = node->get_leftmost_child();
 				Node* right_child = node->get_leftmost_child()->get_rsibling();
 				string lhs_type, rhs_type;
-				traversal(left_child);
-				traversal(right_child);
+				traversal(left_child);//Run the left_child to get the final type
+				traversal(right_child);//Run the right_child to get the final type
 				if(left_child->get_node_type() == NODE_IDENTIFIER)
 				{
-					if(!symbol_table_instance.search_entry(left_child->get_id()))
-						cout << "[ERROR] Undeclared Variable \"" << left_child->get_leftmost_child()->get_id()  << "\" at line " << left_child->get_line_no() << endl;
-					else
+					if(symbol_table_instance.search_entry(left_child->get_id()))
 					{
 						if(symbol_table_instance.get_ExistingEntry_DataType(left_child) == "ARRAY")
 						{
@@ -458,12 +523,13 @@ void traversal(Node* node)
 								else
 									lhs_type = symbol_table_instance.get_ExistingEntry_DataType(left_child);
 							}
+							else
+								lhs_type = symbol_table_instance.get_existing_entry(left_child)->return_type;
 						}
 						else
-						{
 							lhs_type = symbol_table_instance.get_ExistingEntry_DataType(left_child);
-						}
 					}
+					//No Else here since the NODE_IDENTIFIER case will take care of Undeclared problem;
 				}
 				else
 					lhs_type = left_child->get_data_type();
@@ -472,9 +538,7 @@ void traversal(Node* node)
 					rhs_type = lhs_type;
 				else if(right_child->get_node_type() == NODE_IDENTIFIER)
 				{
-					if(!symbol_table_instance.search_entry(right_child->get_id()))
-						cout << "[ERROR] Undeclared Variable \"" << right_child->get_leftmost_child()->get_id()  << "\" at line " << right_child->get_line_no() << endl;
-					else
+					if(symbol_table_instance.search_entry(right_child->get_id()))
 					{
 						if(symbol_table_instance.get_ExistingEntry_DataType(right_child) == "ARRAY")
 						{
@@ -493,13 +557,12 @@ void traversal(Node* node)
 									rhs_type = symbol_table_instance.get_ExistingEntry_DataType(right_child);
 							}
 							else
-								rhs_type = symbol_table_instance.get_ExistingEntry_DataType(right_child);
+								rhs_type = symbol_table_instance.get_existing_entry(right_child)->return_type;
 						}
 						else
-						{
 							rhs_type = symbol_table_instance.get_ExistingEntry_DataType(right_child);
-						}
 					}
+					//No Else here since the NODE_IDENTIFIER case will take care of Undeclared problem;
 				}
 				else
 					rhs_type = right_child->get_data_type();
@@ -519,9 +582,7 @@ void traversal(Node* node)
 				traversal(right_child);
 				if(left_child->get_node_type() == NODE_IDENTIFIER)
 				{
-					if(!symbol_table_instance.search_entry(left_child->get_id()))
-						cout << "[ERROR] Undeclared Variable \"" << left_child->get_leftmost_child()->get_id()  << "\" at line " << left_child->get_line_no() << endl;
-					else
+					if(symbol_table_instance.search_entry(left_child->get_id()))
 					{
 						if(symbol_table_instance.get_ExistingEntry_DataType(left_child) == "ARRAY")
 						{
@@ -540,24 +601,19 @@ void traversal(Node* node)
 									lhs_type = symbol_table_instance.get_ExistingEntry_DataType(left_child);
 							}
 							else
-							{
-								lhs_type = symbol_table_instance.get_ExistingEntry_DataType(left_child);
-							}
+								lhs_type = symbol_table_instance.get_existing_entry(left_child)->return_type;
 						}
 						else
-						{
 							lhs_type = symbol_table_instance.get_ExistingEntry_DataType(left_child);
-						}
 					}
+					//No Else here since the NODE_IDENTIFIER case will take care of Undeclared problem;
 				}
 				else
 					lhs_type = left_child->get_data_type();
 
 				if(right_child->get_node_type() == NODE_IDENTIFIER)
 				{
-					if(!symbol_table_instance.search_entry(right_child->get_id()))
-						cout << "[ERROR] Undeclared Variable \"" << right_child->get_leftmost_child()->get_id()  << "\" at line " << right_child->get_line_no() << endl;
-					else
+					if(symbol_table_instance.search_entry(right_child->get_id()))
 					{
 						if(symbol_table_instance.get_ExistingEntry_DataType(right_child) == "ARRAY")
 						{
@@ -576,13 +632,12 @@ void traversal(Node* node)
 									rhs_type = symbol_table_instance.get_ExistingEntry_DataType(right_child);
 							}
 							else
-								rhs_type = symbol_table_instance.get_ExistingEntry_DataType(right_child);
+								rhs_type = symbol_table_instance.get_existing_entry(right_child)->return_type;
 						}
 						else
-						{
 							rhs_type = symbol_table_instance.get_ExistingEntry_DataType(right_child);
-						}
 					}
+					//No Else here since the NODE_IDENTIFIER case will take care of Undeclared problem;
 				}
 				else
 					rhs_type = right_child->get_data_type();
@@ -602,9 +657,7 @@ void traversal(Node* node)
 				traversal(right_child);
 				if(left_child->get_node_type() == NODE_IDENTIFIER)
 				{
-					if(!symbol_table_instance.search_entry(left_child->get_id()))
-						cout << "[ERROR] Undeclared Variable \"" << left_child->get_leftmost_child()->get_id()  << "\" at line " << left_child->get_line_no() << endl;
-					else
+					if(symbol_table_instance.search_entry(left_child->get_id()))
 					{
 						if(symbol_table_instance.get_ExistingEntry_DataType(left_child) == "ARRAY")
 						{
@@ -623,22 +676,19 @@ void traversal(Node* node)
 									lhs_type = symbol_table_instance.get_ExistingEntry_DataType(left_child);
 							}
 							else
-								lhs_type = symbol_table_instance.get_ExistingEntry_DataType(left_child);
+								lhs_type = symbol_table_instance.get_existing_entry(left_child)->return_type;
 						}
 						else
-						{
 							lhs_type = symbol_table_instance.get_ExistingEntry_DataType(left_child);
-						}
 					}
+					//No Else here since the NODE_IDENTIFIER case will take care of Undeclared problem;
 				}
 				else
 					lhs_type = left_child->get_data_type();
 
 				if(right_child->get_node_type() == NODE_IDENTIFIER)
 				{
-					if(!symbol_table_instance.search_entry(right_child->get_id()))
-						cout << "[ERROR] Undeclared Variable \"" << right_child->get_leftmost_child()->get_id()  << "\" at line " << right_child->get_line_no() << endl;
-					else
+					if(symbol_table_instance.search_entry(right_child->get_id()))
 					{
 						if(symbol_table_instance.get_ExistingEntry_DataType(right_child) == "ARRAY")
 						{
@@ -657,13 +707,12 @@ void traversal(Node* node)
 									rhs_type = symbol_table_instance.get_ExistingEntry_DataType(right_child);
 							}
 							else
-								rhs_type = symbol_table_instance.get_ExistingEntry_DataType(right_child);
+								rhs_type = symbol_table_instance.get_existing_entry(right_child)->return_type;
 						}
 						else
-						{
 							rhs_type = symbol_table_instance.get_ExistingEntry_DataType(right_child);
-						}
 					}
+					//No Else here since the NODE_IDENTIFIER case will take care of Undeclared problem;
 				}
 				else
 					rhs_type = right_child->get_data_type();
@@ -677,7 +726,10 @@ void traversal(Node* node)
 			case NODE_IDENTIFIER:
 			{
 				//cout << "ID : " << node->get_id() << endl;
-				if(! symbol_table_instance.search_entry(node->get_id()))
+				/********************************************
+				*Check if the variable is in the list or not*
+				*********************************************/
+				/*if(! symbol_table_instance.search_entry(node->get_id()))
 					cout << "[ERROR] Undeclared Variable \"" << node->get_id()  << "\" at line " << node->get_line_no() << endl;
 				else
 				{
@@ -695,22 +747,17 @@ void traversal(Node* node)
 							lparen_node->set_is_traversed();
 						}
 					}
-				}
+				}*/
+				parse_identifier_node_in_expression(node);
 				break;
 			}
 		}
 	}
 	if(node->get_leftmost_child() != NULL && !node->get_is_traversed())
-	{
 		traversal(node->get_leftmost_child());
-	}
 	if(node->get_rsibling() != NULL)
-	{
 		traversal(node->get_rsibling());
-	}
 	if(node->get_node_type() == NODE_BLOCK)
-	{
 		scope_stack.pop_front();
-	}
 	return;
 }

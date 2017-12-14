@@ -56,6 +56,10 @@ private:
 bool DataTypeChecking(Node* first_node, Node* second_node);
 string get_nodeType_name(int nodeType_number);
 void TraverseFunctionDeclareParameter(Node* start_node, ParameterList &parameter_list);
+void TraverseFunctionCallParameter(Node* start_node, ParameterList &parameter_list);
 string get_array_basic_DataType(Node* array_type_head);
+unsigned int calculate_array_current_dimension(Node* node);
+bool array_current_dimesion_check(Node* node);
+bool parse_identifier_node_in_expression(Node* identifier_node);
 void traversal(Node* node_start);
 #endif
