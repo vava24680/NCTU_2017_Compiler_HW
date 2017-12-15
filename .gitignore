@@ -3,3 +3,4 @@ parser
 *.tab.*
 lex.yy.c
 result*.txt
+Project_3/Test_result
