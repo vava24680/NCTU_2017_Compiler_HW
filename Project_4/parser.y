@@ -756,7 +756,7 @@ lambda :
 
 SymbolTable symbol_table_instance;
 deque<int> scope_stack;
-deque< vector<string> > if_while_instruction_stack;
+deque< deque<string> > if_while_instruction_stack;
 int scope_codegen_used = 0;
 
 int main(int argc, char** argv)
