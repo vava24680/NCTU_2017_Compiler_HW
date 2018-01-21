@@ -805,6 +805,8 @@ int main(int argc, char** argv)
 		cout << "Finish printSymbolTable" << endl;
 		ClearTraversed(ASTROOT);
 		CodeGen_Traversal(ASTROOT, &codegen_instance);
+		codegen_instance.PrintInstruction("return");
+		codegen_instance.PrintInstruction(".end method");
 	}
 	else
 		printf("Parsing error\n");
