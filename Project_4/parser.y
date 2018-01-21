@@ -32,7 +32,6 @@ extern "C"
 Node* ASTROOT;
 CODEGEN codegen_instance;
 int serial_number = 0;
-vector<string> MainMethodInitial;
 map<string, string> FunctionNameList;
 map<string, string> ProcedureNameList;
 typedef map<string, int>::iterator MAPITERATOR;
@@ -142,6 +141,7 @@ prog :
 		identifier_node->set_id(temp);
 		identifier_node->set_line_no($2.line_no);
 		block_node->modify_block_type(GLOBAL_BLOCK);
+		$9->modify_block_type(PROGRAM_BODY_BLOCK);
 
 		AdoptChild(identifier_node, $4);
 		AdoptChild(program_node, identifier_node);
