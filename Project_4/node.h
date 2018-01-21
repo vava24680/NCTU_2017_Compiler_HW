@@ -124,7 +124,6 @@ public:
 	int get_node_type(void) const;
 	int get_line_no(void) const;
 	int get_local_serial_number(void) const;
-	int get_array_dimension(Node* array_node);
 	string get_data_type(void) const;
 	Node* get_node_array_type(void) const;
 	Node* get_parent(void) const;
