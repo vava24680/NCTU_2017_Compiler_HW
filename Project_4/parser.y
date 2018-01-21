@@ -779,14 +779,18 @@ int scope_codegen_used = 0;
 
 int main(int argc, char** argv)
 {
-	int parse_result;
+	int parse_result, last_slash_pos, last_dot_pos;
 	char* filename = argv[1];
 	FILE* file;
 	file = fopen(filename,"r");
 	if (!file)
 		exit(1);
-	codegen_instance.SetProgramName(argv[1]);
+	string temp(argv[1]);
+	last_slash_pos = temp.find_last_of("/");
+	last_dot_pos = temp.find_last_of(".");
+	codegen_instance.SetProgramName(temp.substr(0, last_dot_pos));
 	codegen_instance.Open_J_File();
+	codegen_instance.SetProgramName(temp.substr(last_slash_pos + 1, last_dot_pos - last_slash_pos - 1));
 	codegen_instance.PrintCommonPart();
 	extern FILE* yyin;
 	yyin = file;
