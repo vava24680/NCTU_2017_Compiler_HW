@@ -143,7 +143,10 @@ void RHS_handler(Node* rhs_node, CODEGEN* codegen_ptr)
 
 void LHS_handler(Node* lhs_node, CODEGEN* codegen_ptr)
 {
-	if(lhs_node->get_node_type() == NODE_IDENTIFIER)
+	/****************************************
+	LHS means left hand side of assignment which can only be identifier
+	*****************************************/
+	/*if(lhs_node->get_node_type() == NODE_IDENTIFIER)
 	{
 		vector<ENTRY>::const_iterator result = codegen_ptr->get_existing_entry_from_symtab(lhs_node, &symbol_table_instance);
 		string type = (result->type) == "INTEGER" ? "I" : "F";
@@ -155,6 +158,25 @@ void LHS_handler(Node* lhs_node, CODEGEN* codegen_ptr)
 		{//Array accessing
 			cout << "20 " << endl;
 		}
+	}*/
+	vector<ENTRY>::const_iterator result = codegen_ptr->get_existing_entry_from_symtab(lhs_node, &symbol_table_instance);
+	if( result->belong_scope == 0)
+	{//Global variable
+		if( result->type == "INTEGER" )
+			codegen_ptr->PrintInstruction("putstatic " + codegen_ptr->getProgramName() + "/" + lhs_node->get_id() + " I");
+		else if ( result->type == "REAL" )
+			codegen_ptr->PrintInstruction("putstatic " + codegen_ptr->getProgramName() + "/" + lhs_node->get_id() + " F");
+		else
+			codegen_ptr->PrintInstruction(";which means it's array and I give up");
+	}
+	else
+	{
+		if( result->type == "INTEGER" )
+			codegen_ptr->PrintInstruction( "istore " + numeric2string<int>( lhs_node->get_local_serial_number() ) );
+		else if( result->type == "REAL" )
+			codegen_ptr->PrintInstruction( "fstore " + numeric2string<int>( lhs_node->get_local_serial_number() ) );
+		else
+			codegen_ptr->PrintInstruction(";which means it's array and I give up");
 	}
 }
 
