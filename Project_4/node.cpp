@@ -123,6 +123,16 @@ int Node::get_local_serial_number(void) const
 {
 	return this->local_serial_number;
 }
+int Node::get_array_dimension(Node* array_node)
+{
+	int dimension = 0;
+	while(array_node->get_node_type() == NODE_ARRAY)
+	{
+		dimension++;
+		array_node = array_node->get_leftmost_child();
+	}
+	return dimension;
+}
 string Node::get_data_type(void) const
 {
 	return this->data_type;
