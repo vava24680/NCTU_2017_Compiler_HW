@@ -10,8 +10,11 @@ typedef map<string, string>::iterator FUNC_PROC_ITERATOR;
 CODEGEN::CODEGEN(){};
 CODEGEN::CODEGEN(string program_name)
 {
-	this->program_name = program_name;
+	int last_slash_pos = program_name.find_last_of("/");
+	int last_dot_pos = program_name.find_last_of(".");
+	this->program_name = program_name.substr(0, last_dot_pos);
 	this->Open_J_File();
+	this->program_name = program_name.substr(last_slash_pos + 1, last_dot_pos - last_slash_pos - 1);
 	this->PrintCommonPart();
 }
 string CODEGEN::getProgramName(void) const
@@ -264,22 +267,18 @@ void CodeGen_Traversal(Node* node_start, CODEGEN* codegen_ptr)
 				if(node_start->get_block_type() == PROGRAM_BODY_BLOCK)
 				{
 					codegen_ptr->PrintInstruction(".method public static main([Ljava/lang/String;)V");
+					codegen_ptr->PrintInstruction(".limit stack 400");
+					codegen_ptr->PrintInstruction(".limit locals 400");
 					codegen_ptr->PrintInstruction("new java/util/Scanner");
 					codegen_ptr->PrintInstruction("dup");
 					codegen_ptr->PrintInstruction("getstatic java/lang/System/in Ljava/io/InputStream;");
-					codegen_ptr->PrintInstruction("invokespecial java/util/Scanner<init>(Ljava/io/InputStream;)V");
+					codegen_ptr->PrintInstruction("invokespecial java/util/Scanner/<init>(Ljava/io/InputStream;)V");
 					codegen_ptr->PrintInstruction("putstatic " + codegen_ptr->getProgramName() + "/_sc Ljava/util/Scanner;");
-					codegen_ptr->PrintInstruction(".limit stack 400");
-					codegen_ptr->PrintInstruction(".limit locals 400");
 				}
 				break;
 			}
 			case NODE_PROGRAM:
 			{
-				//codegen_ptr->Open_J_File();
-				//codegen_ptr->PrintCommonPart();
-				//codegen_ptr->PrintStackSize(400);
-				//codegen_ptr->PrintLocalSize(400);
 				node_start->set_is_traversed();
 				break;
 			}
@@ -527,7 +526,7 @@ void CodeGen_Traversal(Node* node_start, CODEGEN* codegen_ptr)
 						string FunctionName(node_start->get_id());
 						FUNC_PROC_ITERATOR fp_it = FunctionNameList.find(FunctionName);
 						CodeGen_Traversal(node_start->get_leftmost_child(), codegen_ptr);
-						codegen_ptr->PrintInstruction("invokestatic " + (fp_it->first) + (fp_it->second));
+						codegen_ptr->PrintInstruction("invokestatic " + codegen_ptr->getProgramName() + "/" + (fp_it->first) + (fp_it->second));
 						node_start->set_is_traversed();
 					}
 					else if(result->type=="PROCEDURE")
@@ -535,7 +534,7 @@ void CodeGen_Traversal(Node* node_start, CODEGEN* codegen_ptr)
 						string ProcedureName(node_start->get_id());
 						FUNC_PROC_ITERATOR fp_it = ProcedureNameList.find(ProcedureName);
 						CodeGen_Traversal(node_start->get_leftmost_child(), codegen_ptr);
-						codegen_ptr->PrintInstruction("invokestatic " + (fp_it->first) + (fp_it->second));
+						codegen_ptr->PrintInstruction("invokestatic " + codegen_ptr->getProgramName() + "+" + (fp_it->first) + (fp_it->second));
 						node_start->set_is_traversed();
 					}
 					else if(result->type == "REAL" || result->type == "INTEGER")
