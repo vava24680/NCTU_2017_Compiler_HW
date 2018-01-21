@@ -32,6 +32,7 @@ extern "C"
 Node* ASTROOT;
 CODEGEN codegen_instance;
 int serial_number = 0;
+vector<string> MainMethodInitial;
 map<string, string> FunctionNameList;
 map<string, string> ProcedureNameList;
 typedef map<string, int>::iterator MAPITERATOR;
@@ -94,6 +95,8 @@ typedef map<string, int>::iterator MAPITERATOR;
 %token  INT_WORD
 %token  REAL_WORD
 %token  STRING_WORD
+%token	PRINT
+%token	WRITE
 
 %type <node> prog
 %type  <node> identifier_list
@@ -427,6 +430,21 @@ statement :
 			//printf("Reduction ( statement -> WHILE expression DO statement)\n");
 		}
 	|
+		PRINT expression
+		{
+			Node* print_node = newNode(NODE_PRINT);
+			AdoptChild(print_node, $2);
+			$$ = print_node;
+		}
+	|
+		WRITE expression
+		{
+			Node* write_node = newNode(NODE_WRITE);
+			AdoptChild(write_node, $2);
+			$$ = write_node;
+		}
+	|
+
 		lambda
 		{
 			$$ = $1;
