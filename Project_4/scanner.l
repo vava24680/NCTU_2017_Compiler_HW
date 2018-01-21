@@ -58,6 +58,8 @@ using namespace std;
 #define   INT_WORD   298
 #define   REAL_WORD  299
 #define   STRING_WORD     300
+#define		PRINT		301
+#define		WRITE		302
 extern "C"
 {
 	int yylex(void);
@@ -124,6 +126,8 @@ Z [zZ]
 {V}{A}{R}					{printf("Shift VAR\n");return(VAR);}
 {W}{H}{I}{L}{E}				{printf("Shift WHILE\n");return(WHILE);}
 {S}{T}{R}{I}{N}{G}			{printf("Shift STRING_WORD\n");return(STRING_WORD);}
+{P}{R}{I}{N}{T}				{printf("Shift PRINT\n");return(PRINT);}
+{W}{R}{I}{T}{E}				{printf("Shift WRITE\n");return(WRITE);}
 [+-]?[0-9]+("."[0-9]*)?{E}[+-]?[0-9]+	{
 										printf("Shift SCIENTIFIC_EXP\n");
 											double realnumber;
