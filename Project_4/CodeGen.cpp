@@ -261,12 +261,25 @@ void CodeGen_Traversal(Node* node_start, CODEGEN* codegen_ptr)
 				codegen_ptr->push_front_scope_stack_codegen_used(codegen_ptr->get_total_scope());
 				codegen_ptr->total_scope_increment_one();
 				scope_codegen_used = codegen_ptr->get_current_scope();
+				if(node_start->get_block_type() == PROGRAM_BODY_BLOCK)
+				{
+					codegen_ptr->PrintInstruction(".method public static main([Ljava/lang/String;)V");
+					codegen_ptr->PrintInstruction("new java/util/Scanner");
+					codegen_ptr->PrintInstruction("dup");
+					codegen_ptr->PrintInstruction("getstatic java/lang/System/in Ljava/io/InputStream;");
+					codegen_ptr->PrintInstruction("invokespecial java/util/Scanner<init>(Ljava/io/InputStream;)V");
+					codegen_ptr->PrintInstruction("putstatic " + codegen_ptr->getProgramName() + "/_sc Ljava/util/Scanner;");
+					codegen_ptr->PrintInstruction(".limit stack 400");
+					codegen_ptr->PrintInstruction(".limit locals 400");
+				}
 				break;
 			}
 			case NODE_PROGRAM:
 			{
 				//codegen_ptr->Open_J_File();
 				//codegen_ptr->PrintCommonPart();
+				//codegen_ptr->PrintStackSize(400);
+				//codegen_ptr->PrintLocalSize(400);
 				node_start->set_is_traversed();
 				break;
 			}
@@ -292,6 +305,7 @@ void CodeGen_Traversal(Node* node_start, CODEGEN* codegen_ptr)
 				/*FunctionName is also a global variable which can be used in function body(like static variable)*/
 				codegen_ptr->PrintInstruction(".field public static " + FunctionName_node->get_id() + " " + return_type);
 				codegen_ptr->PrintInstruction(".method public static " + node_start->get_leftmost_child()->get_leftmost_child()->get_id() + "(" + FunctionProcedureParameter_Handler(lparen_node) + ")" + return_type);
+				FunctionNameList.insert( pair<string, string>(FunctionName_node->get_id(), "(" + FunctionProcedureParameter_Handler(lparen_node) + ")" + return_type) );
 				codegen_ptr->PrintStackSize(40);
 				codegen_ptr->PrintLocalSize(40);
 				/*Manually add a new scope, and manually delete this scope later*/
@@ -311,7 +325,6 @@ void CodeGen_Traversal(Node* node_start, CODEGEN* codegen_ptr)
 				else
 					codegen_ptr->PrintInstruction("return");
 				codegen_ptr->PrintInstruction(".end method");
-				FunctionNameList.insert( pair<string, string>(FunctionName_node->get_id(), "(" + FunctionProcedureParameter_Handler(lparen_node) + ")" + return_type) );
 				node_start->set_is_traversed();
 				break;
 			}
@@ -324,6 +337,7 @@ void CodeGen_Traversal(Node* node_start, CODEGEN* codegen_ptr)
 				/*ProcedureName is also a global variable which can be used in function body(like static variable)*/
 				/*method byte-code gen*/
 				codegen_ptr->PrintInstruction(".method public static " + ProcedureName_node->get_id() + "(" + FunctionProcedureParameter_Handler(lparen_node) +")V");
+				ProcedureNameList.insert( pair<string, string>(ProcedureName_node->get_id(), "(" + FunctionProcedureParameter_Handler(lparen_node) +")V") );
 				codegen_ptr->PrintStackSize(40);
 				codegen_ptr->PrintLocalSize(40);
 				/*Manually add a new scope, and manually delete this scope later*/
@@ -337,7 +351,6 @@ void CodeGen_Traversal(Node* node_start, CODEGEN* codegen_ptr)
 				/*void return*/
 				codegen_ptr->PrintInstruction("return");
 				codegen_ptr->PrintInstruction(".end method");
-				ProcedureNameList.insert( pair<string, string>(ProcedureName_node->get_id(), "(" + FunctionProcedureParameter_Handler(lparen_node) +")V") );
 				node_start->set_is_traversed();
 				break;
 			}
@@ -485,6 +498,21 @@ void CodeGen_Traversal(Node* node_start, CODEGEN* codegen_ptr)
 				node_start->set_is_traversed();
 				break;
 			}
+			case NODE_PRINT:
+			case NODE_WRITE:
+			{
+				Node* child_node = node_start->get_leftmost_child();
+				codegen_ptr->PrintInstruction("getstatic java/lang/System/out Ljava/io/PrintStream;");
+				CodeGen_Traversal(node_start->get_leftmost_child(), codegen_ptr);
+				if(child_node->get_data_type() == "INTEGER")
+					codegen_ptr->PrintInstruction("invokevirtual java/io/PrintStream/print(I)V");
+				else if(child_node->get_data_type() == "REAL")
+					codegen_ptr->PrintInstruction("invokevirtual java/io/PrintStream/print(F)V");
+				else
+					codegen_ptr->PrintInstruction("invokevirtual java/io/PrintStream/print(Ljava/lang/String;)V");
+				node_start->set_is_traversed();
+				break;
+			}
 			case NODE_IDENTIFIER:
 			{//For the identifier which is on the RHS
 				cout << "NODE_IDENTIFIER : " << node_start->get_id() << endl;
@@ -510,7 +538,7 @@ void CodeGen_Traversal(Node* node_start, CODEGEN* codegen_ptr)
 						codegen_ptr->PrintInstruction("invokestatic " + (fp_it->first) + (fp_it->second));
 						node_start->set_is_traversed();
 					}
-					else
+					else if(result->type == "REAL" || result->type == "INTEGER")
 					{
 						string type = result->type == "INTEGER" ? "I" : "F";
 						if(node_start->get_data_type() == "")
@@ -527,6 +555,10 @@ void CodeGen_Traversal(Node* node_start, CODEGEN* codegen_ptr)
 							else
 								codegen_ptr->PrintInstruction("fload " +numeric2string<double>(local_serial_number));
 						}
+					}
+					else
+					{//Array
+
 					}
 				}
 				break;
@@ -607,6 +639,10 @@ void CodeGen_Traversal(Node* node_start, CODEGEN* codegen_ptr)
 			{//Less or Equal
 				Node* op1 = node_start->get_leftmost_child();
 				Node* op2 = op1->get_rsibling();
+				cout << "op1 node type : " << op1->get_node_type() << endl;
+				cout << "id : " << op1->get_id() << endl;
+				cout << "op2 node type : " << op2->get_node_type() << endl;
+				cout << "id : " << op2->get_id() << endl;
 				string instrunction2print("");
 				Relation_Predicate_CommomRoutine(op1, codegen_ptr);
 				if(op1->get_data_type() == "REAL" || op2->get_data_type() == "REAL")
@@ -626,6 +662,10 @@ void CodeGen_Traversal(Node* node_start, CODEGEN* codegen_ptr)
 			{//Greater or Equal
 				Node* op1 = node_start->get_leftmost_child();
 				Node* op2 = op1->get_rsibling();
+				cout << "op1 node type : " << op1->get_node_type() << endl;
+				cout << "id : " << op1->get_id() << endl;
+				cout << "op2 node type : " << op2->get_node_type() << endl;
+				cout << "id : " << op2->get_id() << endl;
 				string instrunction2print("");
 				Relation_Predicate_CommomRoutine(op1, codegen_ptr);
 				if(op1->get_data_type() == "REAL" || op2->get_data_type() == "REAL")
@@ -645,6 +685,10 @@ void CodeGen_Traversal(Node* node_start, CODEGEN* codegen_ptr)
 			{
 				Node* op1 = node_start->get_leftmost_child();
 				Node* op2 = op1->get_rsibling();
+				cout << "op1 node type : " << op1->get_node_type() << endl;
+				cout << "id : " << op1->get_id() << endl;
+				cout << "op2 node type : " << op2->get_node_type() << endl;
+				cout << "id : " << op2->get_id() << endl;
 				string instrunction2print("");
 				Relation_Predicate_CommomRoutine(op1, codegen_ptr);
 				if(op1->get_data_type() == "REAL" || op2->get_data_type() == "REAL")
@@ -664,6 +708,10 @@ void CodeGen_Traversal(Node* node_start, CODEGEN* codegen_ptr)
 			{
 				Node* op1 = node_start->get_leftmost_child();
 				Node* op2 = op1->get_rsibling();
+				cout << "op1 node type : " << op1->get_node_type() << endl;
+				cout << "id : " << op1->get_id() << endl;
+				cout << "op2 node type : " << op2->get_node_type() << endl;
+				cout << "id : " << op2->get_id() << endl;
 				string instrunction2print("");
 				Relation_Predicate_CommomRoutine(op1, codegen_ptr);
 				if(op1->get_data_type() == "REAL" || op2->get_data_type() == "REAL")
@@ -683,6 +731,10 @@ void CodeGen_Traversal(Node* node_start, CODEGEN* codegen_ptr)
 			{
 				Node* op1 = node_start->get_leftmost_child();
 				Node* op2 = op1->get_rsibling();
+				cout << "op1 node type : " << op1->get_node_type() << endl;
+				cout << "id : " << op1->get_id() << endl;
+				cout << "op2 node type : " << op2->get_node_type() << endl;
+				cout << "id : " << op2->get_id() << endl;
 				string instrunction2print("");
 				Relation_Predicate_CommomRoutine(op1, codegen_ptr);
 				if(op1->get_data_type() == "REAL" || op2->get_data_type() == "REAL")
@@ -702,6 +754,10 @@ void CodeGen_Traversal(Node* node_start, CODEGEN* codegen_ptr)
 			{
 				Node* op1 = node_start->get_leftmost_child();
 				Node* op2 = op1->get_rsibling();
+				cout << "op1 node type : " << op1->get_node_type() << endl;
+				cout << "id : " << op1->get_id() << endl;
+				cout << "op2 node type : " << op2->get_node_type() << endl;
+				cout << "id : " << op2->get_id() << endl;
 				string instrunction2print("");
 				Relation_Predicate_CommomRoutine(op1, codegen_ptr);
 				if(op1->get_data_type() == "REAL" || op2->get_data_type() == "REAL")
