@@ -508,6 +508,12 @@ void printTree(Node* node, int ident)
 			cout << blank << "/ARRAY_LOWER_BOUND" << endl;
 			//ident+=1;
 			break;
+		case NODE_PRINT:
+			cout << blank << "/PRINT" << endl;
+			break;
+		case NODE_WRITE:
+			cout << blank << "/WRITE" << endl;
+			break;
 		default:
 			cout << "This is a default value" << endl;
 			cout << blank << "Default" << endl;
