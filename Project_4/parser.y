@@ -231,11 +231,11 @@ subprogram_declaration :
 		AdoptChild($1->get_leftmost_child()->get_rsibling(), $2);
 		AdoptChild($1->get_leftmost_child()->get_rsibling(), $3);
 		$$ = $1;
-		int i = 0;
+		int i = calculate_parameters_numbers($1->get_leftmost_child()->get_rsibling()->get_leftmost_child());
 		Node* var_node = $2->get_rsibling();
 		Node* type_node = NULL;
 		Node* id_node = NULL;
-		for(; var_node != NULL; var_node = var_node->get_rsibling())
+		for(; var_node->get_node_type() == NODE_VAR; var_node = var_node->get_rsibling())
 		{
 			type_node = var_node->get_leftmost_child();
 			id_node = type_node->get_leftmost_child();
