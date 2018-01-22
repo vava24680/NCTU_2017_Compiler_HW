@@ -364,8 +364,8 @@ void printTree(Node* node, int ident)
 			cout << blank << "/;" << endl;
 			//ident+=1;
 			break;
-		case NODE_NUMBER:
-			cout << blank << "/NUMBER, " << node->get_id() << endl;
+		case NODE_STRING:
+			cout << blank << "/STRING, " << node->get_id() << endl;
 			//ident+=1;
 			break;
 		case NODE_INT_WORD:
