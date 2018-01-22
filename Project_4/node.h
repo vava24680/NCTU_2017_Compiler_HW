@@ -154,6 +154,7 @@ private:
 
 Node* newNode(int type);
 //void deleteNode(NODE* node);
+int calculate_parameters_numbers(Node* node);
 void MakeSiblings(Node* master, Node* node_add_in);
 void AdoptChild(Node* master, Node*child_node_add_in);
 void printTree(Node* node, int ident);
