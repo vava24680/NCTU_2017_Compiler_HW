@@ -147,6 +147,22 @@ Node* Node::get_rsibling(void) const
 {
 	return this->rsibling;
 }
+int calculate_parameters_numbers(Node* node)
+{
+	int quantity = 0;
+	Node* var_node = NULL;
+	Node* type_node = NULL;
+	Node* id_node = NULL;
+	for(var_node = node->get_leftmost_child(); var_node != NULL; var_node = var_node->get_rsibling())
+	{
+		for(type_node = var_node->get_leftmost_child(); type_node != NULL; type_node = type_node->get_rsibling())
+		{
+			for(id_node = type_node->get_leftmost_child(); id_node != NULL; id_node = id_node->get_rsibling())
+				quantity++;
+		}
+	}
+	return quantity;
+}
 void MakeSiblings(Node* master, Node* node_add_in)
 {	/*Class version*/
 	Node* master_temp = master;
