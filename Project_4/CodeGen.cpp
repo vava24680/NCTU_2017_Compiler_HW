@@ -120,6 +120,17 @@ void ClearTraversed(Node* node_start)
 	return;
 }
 
+int get_array_dimension(Node* array_node)
+{
+	int dimension = 0;
+	while(array_node->get_node_type() == NODE_ARRAY)
+	{
+		dimension++;
+		array_node = array_node->get_leftmost_child();
+	}
+	return dimension;
+}
+
 void RHS_handler(Node* rhs_node, CODEGEN* codegen_ptr)
 {
 	if(rhs_node->get_node_type() == NODE_INTEGER)
@@ -166,6 +177,13 @@ void LHS_handler(Node* lhs_node, CODEGEN* codegen_ptr)
 			codegen_ptr->PrintInstruction("putstatic " + codegen_ptr->getProgramName() + "/" + lhs_node->get_id() + " I");
 		else if ( result->type == "REAL" )
 			codegen_ptr->PrintInstruction("putstatic " + codegen_ptr->getProgramName() + "/" + lhs_node->get_id() + " F");
+		else if ( result->type == "FUNCTION" )
+		{
+			if( result->return_type == "INTEGER" )
+				codegen_ptr->PrintInstruction("putstatic " + codegen_ptr->getProgramName() + "/" + lhs_node->get_id() + " I");
+			else
+				codegen_ptr->PrintInstruction("putstatic " + codegen_ptr->getProgramName() + "/" + lhs_node->get_id() + " F");
+		}
 		else
 			codegen_ptr->PrintInstruction(";which means it's array and I give up");
 	}
@@ -175,6 +193,13 @@ void LHS_handler(Node* lhs_node, CODEGEN* codegen_ptr)
 			codegen_ptr->PrintInstruction( "istore " + numeric2string<int>( lhs_node->get_local_serial_number() ) );
 		else if( result->type == "REAL" )
 			codegen_ptr->PrintInstruction( "fstore " + numeric2string<int>( lhs_node->get_local_serial_number() ) );
+		else if ( result->type == "FUNCTION" )
+		{
+			if( result->return_type == "INTEGER" )
+				codegen_ptr->PrintInstruction("putstatic " + codegen_ptr->getProgramName() + "/" + lhs_node->get_id() + " I");
+			else
+				codegen_ptr->PrintInstruction("putstatic " + codegen_ptr->getProgramName() + "/" + lhs_node->get_id() + " F");
+		}
 		else
 			codegen_ptr->PrintInstruction(";which means it's array and I give up");
 	}
@@ -309,9 +334,27 @@ void CodeGen_Traversal(Node* node_start, CODEGEN* codegen_ptr)
 				if(scope_codegen_used == 0)
 				{//Global variable
 					Node* type_node = node_start->get_leftmost_child();
-					string type = ( type_node->get_node_type() == NODE_INT_WORD ? "I" : "F" );
+					int type_number = type_node->get_node_type();
+					/*string type = ( type_node->get_node_type() == NODE_INT_WORD ? "I" : "F" );
 					for(Node* ptr = type_node->get_leftmost_child(); ptr != NULL; ptr = ptr->get_rsibling())
-						codegen_ptr->PrintInstruction(".field public static " + ptr->get_id() + " " + type);
+						codegen_ptr->PrintInstruction(".field public static " + ptr->get_id() + " " + type);*/
+					if(type_number != NODE_ARRAY)
+					{
+						string type = ( type_node->get_node_type() == NODE_INT_WORD ? "I" : "F" );
+						for(Node* ptr = type_node->get_leftmost_child(); ptr != NULL; ptr = ptr->get_rsibling())
+							codegen_ptr->PrintInstruction(".field public static " + ptr->get_id() + " " + type);
+					}
+					else
+					{
+						string array_brac="";
+						int dimension = get_array_dimension(node_start->get_leftmost_child());
+						for(int i = 0; i < dimension; i++)
+							array_brac += "[";
+						if(get_array_basic_DataType(node_start->get_leftmost_child()) == "INTEGER")
+							array_brac += "I";
+						else
+							array_brac += "F";
+					}
 				}
 				node_start->set_is_traversed();
 				break;
