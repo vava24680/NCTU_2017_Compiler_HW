@@ -90,7 +90,7 @@ typedef map<string, int>::iterator MAPITERATOR;
 %token  NOTEQUAL
 %token <real_value> SCIENTIFIC_EXP
 %token  SCIENTIFIC_EXP_EXPON
-%token <id_struct> NUMBER
+%token <id_struct> STRING
 %token  INT_WORD
 %token  REAL_WORD
 %token  STRING_WORD
@@ -655,7 +655,7 @@ factor :
 			//printf("Reduction ( factor -> addop REALNUMBER)\n");
 		}
 	|
-		NUMBER
+		STRING
 		{
 			Node* number_node = newNode(NODE_NUMBER);
 			string temp($1.id);
@@ -663,7 +663,7 @@ factor :
 			number_node->set_line_no($1.line_no);
 			number_node->set_data_type("STRING");
 			$$ = number_node;
-			//printf("Reduction ( factor -> NUMBER(STRING))\n");
+			//printf("Reduction ( factor -> STRING(STRING))\n");
 		}
 	|
 		LPAREN expression RPAREN

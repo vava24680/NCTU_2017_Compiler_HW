@@ -54,7 +54,7 @@ using namespace std;
 #define   NOTEQUAL   294 //OK
 #define   SCIENTIFIC_EXP  295
 #define   SCIENTIFIC_EXP_EXPON 296
-#define   NUMBER     297
+#define   STRING     297
 #define   INT_WORD   298
 #define   REAL_WORD  299
 #define   STRING_WORD     300
@@ -207,21 +207,21 @@ Z [zZ]
 "/"							{printf("Shift SLASH\n");return(SLASH);}
 "*"							{printf("Shift STAR\n");return(STAR);}
 \"[^\"|^\n|^\r]*\"			{
-								printf("Shift STRING(NODE type is actually NUMBER)\n");
+								printf("Shift STRING(NODE type is actually STRING)\n");
 								yylval.id_struct.id = (char *)malloc(sizeof(char)*strlen(yytext)+1);
 								memcpy(yylval.id_struct.id, yytext, strlen(yytext));
 								yylval.id_struct.id[strlen(yytext)] = '\0';
 								yylval.id_struct.line_no = yylineno;
-								return(NUMBER);
+								return(STRING);
 							}
 \"[^\"]*\"
 \'[^\"|^\n|^\r]*\'			{
-								printf("Shift STRING(NODE type is actually NUMBER)\n");
+								printf("Shift STRING(NODE type is actually STRING)\n");
 								yylval.id_struct.id = (char *)malloc(sizeof(char)*strlen(yytext)+1);
 								memcpy(yylval.id_struct.id, yytext, strlen(yytext));
 								yylval.id_struct.id[strlen(yytext)] = '\0';
 								yylval.id_struct.line_no = yylineno;
-								return(NUMBER);
+								return(STRING);
 							}
 
 "//".*
