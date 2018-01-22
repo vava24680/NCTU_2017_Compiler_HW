@@ -657,7 +657,7 @@ factor :
 	|
 		STRING
 		{
-			Node* number_node = newNode(NODE_NUMBER);
+			Node* number_node = newNode(NODE_STRING);
 			string temp($1.id);
 			number_node->set_id(temp);
 			number_node->set_line_no($1.line_no);
