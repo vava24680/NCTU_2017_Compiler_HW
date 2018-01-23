@@ -620,7 +620,7 @@ void CodeGen_Traversal(Node* node_start, CODEGEN* codegen_ptr)
 						string ProcedureName(node_start->get_id());
 						FUNC_PROC_ITERATOR fp_it = ProcedureNameList.find(ProcedureName);
 						CodeGen_Traversal(node_start->get_leftmost_child(), codegen_ptr);
-						codegen_ptr->PrintInstruction("invokestatic " + codegen_ptr->getProgramName() + "+" + (fp_it->first) + (fp_it->second));
+						codegen_ptr->PrintInstruction("invokestatic " + codegen_ptr->getProgramName() + "/" + (fp_it->first) + (fp_it->second));
 						node_start->set_is_traversed();
 					}
 					else if(result->type == "REAL" || result->type == "INTEGER")
