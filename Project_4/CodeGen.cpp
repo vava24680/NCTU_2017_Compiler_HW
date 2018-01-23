@@ -680,6 +680,7 @@ void CodeGen_Traversal(Node* node_start, CODEGEN* codegen_ptr)
 				double node_value = node_start->get_real_value();
 				string number(numeric2string<double>(node_value));
 				if(number.find('.') == string::npos)
+				/*For those float-point number that doesn't have fraction part, since numeric2string will omit the fraction part automatically, we need add ".0" manually*/
 					number += ".0";
 				codegen_ptr->PrintInstruction("ldc " + number);
 				break;
