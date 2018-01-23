@@ -776,7 +776,7 @@ SymbolTable symbol_table_instance;
 deque<int> scope_stack;
 deque< deque<string> > if_while_instruction_stack;
 int scope_codegen_used = 0;
-
+int if_while_number = 0;
 int main(int argc, char** argv)
 {
 	int parse_result, last_slash_pos, last_dot_pos;
