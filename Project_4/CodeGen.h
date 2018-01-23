@@ -46,5 +46,5 @@ void CodeGen_Traversal(Node* node_start, CODEGEN* codegen_ptr);
 void LHS_handler(Node* lhs_node, CODEGEN* codegen_ptr);
 string FunctionProcedureParameter_Handler(Node* lparen_node);
 int Predicate_Handler(Node* predicate_start_node);
-void Relation_Predicate_CommomRoutine(Node* op1, CODEGEN* codegen_ptr);
+void Operand_TypeCasting(Node* op1, CODEGEN* codegen_ptr);
 #endif
