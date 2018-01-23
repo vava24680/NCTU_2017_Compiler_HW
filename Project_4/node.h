@@ -135,7 +135,7 @@ private:
 	BlockType block_type;
 	string id;
 	int integer_value;
-	int real_value;
+	double real_value;
 	int array_start_index;
 	int array_end_index;
 	bool is_traversed;
