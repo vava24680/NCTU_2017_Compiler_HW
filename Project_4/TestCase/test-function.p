@@ -4,10 +4,11 @@ var c: REAL;
 
 function ss(rr :INTEGER) : INTEGER;
 begin
-	ss := rr;
+	ss := rr + 3;
 end;
 
 begin
 	a := ss(ss(ss(ss(3))));
+	print a
 end.
 
