@@ -693,11 +693,16 @@ void CodeGen_Traversal(Node* node_start, CODEGEN* codegen_ptr)
 				Node* op2 = node_start->get_leftmost_child()->get_rsibling();
 				//CodeGen_Traversal(op1, codegen_ptr);
 				//CodeGen_Traversal(op2, codegen_ptr);
-				Operand_TypeCasting(op1, codegen_ptr);
-				if(op1->get_data_type() == "REAL" || op2->get_data_type() == "REAL")
-					codegen_ptr->PrintInstruction("fadd");
+				if(op2 != NULL)
+				{
+					Operand_TypeCasting(op1, codegen_ptr);
+					if(op1->get_data_type() == "REAL" || op2->get_data_type() == "REAL")
+						codegen_ptr->PrintInstruction("fadd");
+					else
+						codegen_ptr->PrintInstruction("iadd");
+				}
 				else
-					codegen_ptr->PrintInstruction("iadd");
+					CodeGen_Traversal(op1, codegen_ptr);
 				node_start->set_is_traversed();
 				break;
 			}
@@ -707,11 +712,33 @@ void CodeGen_Traversal(Node* node_start, CODEGEN* codegen_ptr)
 				Node* op2 = node_start->get_leftmost_child()->get_rsibling();
 				//CodeGen_Traversal(op1, codegen_ptr);
 				//CodeGen_Traversal(op2, codegen_ptr);
-				Operand_TypeCasting(op1, codegen_ptr);
-				if(op1->get_data_type() == "REAL" || op2->get_data_type() == "REAL")
-					codegen_ptr->PrintInstruction("fsub");
+				if(op2 != NULL)
+				{
+					Operand_TypeCasting(op1, codegen_ptr);
+					if(op1->get_data_type() == "REAL" || op2->get_data_type() == "REAL")
+						codegen_ptr->PrintInstruction("fsub");
+					else
+						codegen_ptr->PrintInstruction("isub");
+				}
 				else
-					codegen_ptr->PrintInstruction("isub");
+				{
+					CodeGen_Traversal(op1, codegen_ptr);
+					if(op1->get_node_type() == NODE_IDENTIFIER)
+					{
+						vector<ENTRY>::const_iterator result = codegen_ptr->get_existing_entry_from_symtab(op1, &symbol_table_instance);
+						op1->set_data_type(result->type);
+					}
+					if(op1->get_data_type() == "INTEGER")
+					{
+						codegen_ptr->PrintInstruction("iconst_m1");
+						codegen_ptr->PrintInstruction("imul");
+					}
+					else
+					{
+						codegen_ptr->PrintInstruction("ldc -1.0");
+						codegen_ptr->PrintInstruction("fmul");
+					}
+				}
 				node_start->set_is_traversed();
 				break;
 			}
