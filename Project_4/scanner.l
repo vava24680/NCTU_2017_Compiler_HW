@@ -197,9 +197,9 @@ Z [zZ]
 "-"							{printf("Shift MINUS\n");return(MINUS);}
 "+"							{printf("Shift PLUS\n");return(PLUS);}
 "]"							{printf("Shift RBRAC\n");return(RBRAC);}
-[0-9]+"."[0-9]+			{
+[0-9]+"."[0-9]+				{
 								printf("Shift REALNUMBER\n");
-								yylval.integer_value = atof(yytext);
+								yylval.real_value = atof(yytext);
 								return(REALNUMBER);
 							}
 ")"							{printf("Shift RPAREN\n");return(RPAREN);}
