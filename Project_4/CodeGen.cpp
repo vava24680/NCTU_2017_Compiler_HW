@@ -131,27 +131,6 @@ int get_array_dimension(Node* array_node)
 	return dimension;
 }
 
-void RHS_handler(Node* rhs_node, CODEGEN* codegen_ptr)
-{
-	if(rhs_node->get_node_type() == NODE_INTEGER)
-	{
-		int rhs_node_value = rhs_node->get_integer_value();
-		string number(numeric2string<int>(rhs_node_value));
-		if(rhs_node_value >= -128 && rhs_node_value <= 127)
-			codegen_ptr->PrintInstruction("bipush " + number);
-		else if(rhs_node_value >= -32768 && rhs_node_value <= 32767)
-			codegen_ptr->PrintInstruction("sipush " + number);
-		else
-			codegen_ptr->PrintInstruction("ldc " + number);
-	}
-	else if(rhs_node->get_node_type() == NODE_REALNUMBER)
-	{
-		double rhs_node_value = rhs_node->get_real_value();
-		string number(numeric2string<double>(rhs_node_value));
-		codegen_ptr->PrintInstruction("ldc2_w " + number);
-	}
-}
-
 void LHS_handler(Node* lhs_node, CODEGEN* codegen_ptr)
 {
 	/****************************************

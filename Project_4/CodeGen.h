@@ -43,7 +43,6 @@ string toLowerCase(string target);
 template<class T> string numeric2string(T value);
 void ClearTraversed(Node* node_start);
 void CodeGen_Traversal(Node* node_start, CODEGEN* codegen_ptr);
-void RHS_handler(Node* rhs_node, CODEGEN* codegen_ptr);
 void LHS_handler(Node* lhs_node, CODEGEN* codegen_ptr);
 string FunctionProcedureParameter_Handler(Node* lparen_node);
 int Predicate_Handler(Node* predicate_start_node);
