@@ -2,6 +2,7 @@
 
 using namespace std;
 extern int scope_codegen_used;
+extern int if_while_number;
 extern SymbolTable symbol_table_instance;
 extern map<string, string> FunctionNameList;
 extern map<string, string> ProcedureNameList;
@@ -442,7 +443,8 @@ void CodeGen_Traversal(Node* node_start, CODEGEN* codegen_ptr)
 					}
 					case 1:
 					{//Arithmetic Operation
-						string label_number(numeric2string<int>(if_while_instruction_stack.size()));
+						string label_number( numeric2string<int>(if_while_number) );
+						if_while_number++;
 						codegen_ptr->PrintInstruction("ifeq Lfalse" + label_number);
 						if_while_instruction_stack.push_front( deque<string>(1, "Lfalse" + label_number + ":" ) );
 						if_while_instruction_stack.front().push_back("Lexit" + label_number);
@@ -456,7 +458,8 @@ void CodeGen_Traversal(Node* node_start, CODEGEN* codegen_ptr)
 							codegen_ptr->PrintInstruction("fconst_0");
 							codegen_ptr->PrintInstruction("fcmpl");
 						}
-						string label_number(numeric2string<int>(if_while_instruction_stack.size()));
+						string label_number( numeric2string<int>(if_while_number) );
+						if_while_number++;
 						codegen_ptr->PrintInstruction("ifeq Lfalse" + label_number);
 						if_while_instruction_stack.push_front( deque<string>(1, "Lfalse" + label_number + ":" ) );
 						if_while_instruction_stack.front().push_back("Lexit" + label_number);
@@ -468,7 +471,8 @@ void CodeGen_Traversal(Node* node_start, CODEGEN* codegen_ptr)
 						codegen_ptr->PrintInstruction("i2f");
 						codegen_ptr->PrintInstruction("fconst_0");
 						codegen_ptr->PrintInstruction("fcmpl");
-						string label_number(numeric2string<int>(if_while_instruction_stack.size()));
+						string label_number( numeric2string<int>(if_while_number) );
+						if_while_number++;
 						codegen_ptr->PrintInstruction("ifeq Lfalse" + label_number);
 						if_while_instruction_stack.push_front( deque<string>(1, "Lfalse" + label_number + ":" ) );
 						if_while_instruction_stack.front().push_back("Lexit" + label_number);
@@ -498,7 +502,8 @@ void CodeGen_Traversal(Node* node_start, CODEGEN* codegen_ptr)
 				Node* while_body_node = predicate_start_node->get_rsibling();
 				while_body_node->set_is_traversed();
 				/*Deal with predicate*/
-				string label_number( numeric2string<int>( if_while_instruction_stack.size() ) );
+				string label_number( numeric2string<int>(if_while_number) );
+				if_while_number++;
 				codegen_ptr->PrintInstruction("Wbegin" + label_number + ":");
 				CodeGen_Traversal(predicate_start_node, codegen_ptr);
 				switch (Predicate_Handler(predicate_start_node))
@@ -752,7 +757,8 @@ void CodeGen_Traversal(Node* node_start, CODEGEN* codegen_ptr)
 					instrunction2print += "fcmpl\n";
 				else
 					instrunction2print += "isub\n";
-				string label_number(numeric2string<int>(if_while_instruction_stack.size()));
+				string label_number(numeric2string<int>(if_while_number));
+				if_while_number++;
 				instrunction2print += ("ifgt Lfalse" + label_number);
 				if_while_instruction_stack.push_front( deque<string>(1,instrunction2print) );
 				if_while_instruction_stack.front().push_back("Lfalse" + label_number + ":");
@@ -771,7 +777,8 @@ void CodeGen_Traversal(Node* node_start, CODEGEN* codegen_ptr)
 					instrunction2print += "fcmpg\n";
 				else
 					instrunction2print += "isub\n";
-				string label_number(numeric2string<int>(if_while_instruction_stack.size()));
+				string label_number(numeric2string<int>(if_while_number));
+				if_while_number++;
 				instrunction2print += ("iflt Lfalse" + label_number);
 				if_while_instruction_stack.push_front( deque<string> (1, instrunction2print) );
 				if_while_instruction_stack.front().push_back("Lfalse" + label_number + ":");
@@ -790,7 +797,8 @@ void CodeGen_Traversal(Node* node_start, CODEGEN* codegen_ptr)
 					instrunction2print += "fcmpl\n";
 				else
 					instrunction2print += "isub\n";
-				string label_number(numeric2string<int>(if_while_instruction_stack.size()));
+				string label_number(numeric2string<int>(if_while_number));
+				if_while_number++;
 				instrunction2print += ("ifge Lfalse" + label_number);
 				if_while_instruction_stack.push_front( deque<string>(1, instrunction2print) );
 				if_while_instruction_stack.front().push_back("Lfalse" + label_number + ":");
@@ -809,7 +817,8 @@ void CodeGen_Traversal(Node* node_start, CODEGEN* codegen_ptr)
 					instrunction2print += "fcmpg\n";
 				else
 					instrunction2print += "isub\n";
-				string label_number(numeric2string<int>(if_while_instruction_stack.size()));
+				string label_number(numeric2string<int>(if_while_number));
+				if_while_number++;
 				instrunction2print += ("ifle Lfalse" + label_number);
 				if_while_instruction_stack.push_front( deque<string>(1, instrunction2print) );
 				if_while_instruction_stack.front().push_back("Lfalse" + label_number + ":");
@@ -828,7 +837,8 @@ void CodeGen_Traversal(Node* node_start, CODEGEN* codegen_ptr)
 					instrunction2print += "fcmpg\n";
 				else
 					instrunction2print += "isub\n";
-				string label_number(numeric2string<int>(if_while_instruction_stack.size()));
+				string label_number(numeric2string<int>(if_while_number));
+				if_while_number++;
 				instrunction2print += ("ifne Lfalse" + label_number);
 				if_while_instruction_stack.push_front( deque<string>(1, instrunction2print) );
 				if_while_instruction_stack.front().push_back("Lfalse" + label_number + ":");
@@ -847,7 +857,8 @@ void CodeGen_Traversal(Node* node_start, CODEGEN* codegen_ptr)
 					instrunction2print += "fcmpg\n";
 				else
 					instrunction2print += "isub\n";
-				string label_number(numeric2string<int>(if_while_instruction_stack.size()));
+				string label_number(numeric2string<int>(if_while_number));
+				if_while_number++;
 				instrunction2print += ("ifeq Lfalse" + label_number);
 				if_while_instruction_stack.push_front( deque<string>(1, instrunction2print) );
 				if_while_instruction_stack.front().push_back("Lfalse" + label_number + ":");
