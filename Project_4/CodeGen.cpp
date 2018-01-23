@@ -171,9 +171,9 @@ void LHS_handler(Node* lhs_node, CODEGEN* codegen_ptr)
 	else
 	{
 		if( result->type == "INTEGER" )
-			codegen_ptr->PrintInstruction( "istore " + numeric2string<int>( lhs_node->get_local_serial_number() ) );
+			codegen_ptr->PrintInstruction( "istore " + numeric2string<int>( result->local_serial_number ) );
 		else if( result->type == "REAL" )
-			codegen_ptr->PrintInstruction( "fstore " + numeric2string<int>( lhs_node->get_local_serial_number() ) );
+			codegen_ptr->PrintInstruction( "fstore " + numeric2string<int>( result->local_serial_number ) );
 		else if ( result->type == "FUNCTION" )
 		{
 			if( result->return_type == "INTEGER" )
@@ -182,7 +182,7 @@ void LHS_handler(Node* lhs_node, CODEGEN* codegen_ptr)
 				codegen_ptr->PrintInstruction("putstatic " + codegen_ptr->getProgramName() + "/" + lhs_node->get_id() + " F");
 		}
 		else if( result->type == "STRING" )
-			codegen_ptr->PrintInstruction( "astore " + numeric2string<int>(result->local_serial_number) );
+			codegen_ptr->PrintInstruction( "astore " + numeric2string<int>( result->local_serial_number ) );
 		else
 			codegen_ptr->PrintInstruction(";which means it's array and I give up");
 	}
@@ -261,7 +261,7 @@ int Predicate_Handler(Node* predicate_start_node)
 	return result;
 }
 
-void Relation_Predicate_CommomRoutine(Node* op1, CODEGEN* codegen_ptr)
+void Operand_TypeCasting(Node* op1, CODEGEN* codegen_ptr)
 {
 	Node* op2 = op1->get_rsibling();
 	CodeGen_Traversal(op1, codegen_ptr);
@@ -670,8 +670,9 @@ void CodeGen_Traversal(Node* node_start, CODEGEN* codegen_ptr)
 			{
 				Node* op1 = node_start->get_leftmost_child();
 				Node* op2 = node_start->get_leftmost_child()->get_rsibling();
-				CodeGen_Traversal(op1, codegen_ptr);
+				//CodeGen_Traversal(op1, codegen_ptr);
 				//CodeGen_Traversal(op2, codegen_ptr);
+				Operand_TypeCasting(op1, codegen_ptr);
 				if(op1->get_data_type() == "REAL" || op2->get_data_type() == "REAL")
 					codegen_ptr->PrintInstruction("fadd");
 				else
@@ -683,8 +684,9 @@ void CodeGen_Traversal(Node* node_start, CODEGEN* codegen_ptr)
 			{
 				Node* op1 = node_start->get_leftmost_child();
 				Node* op2 = node_start->get_leftmost_child()->get_rsibling();
-				CodeGen_Traversal(op1, codegen_ptr);
+				//CodeGen_Traversal(op1, codegen_ptr);
 				//CodeGen_Traversal(op2, codegen_ptr);
+				Operand_TypeCasting(op1, codegen_ptr);
 				if(op1->get_data_type() == "REAL" || op2->get_data_type() == "REAL")
 					codegen_ptr->PrintInstruction("fsub");
 				else
@@ -696,8 +698,9 @@ void CodeGen_Traversal(Node* node_start, CODEGEN* codegen_ptr)
 			{
 				Node* op1 = node_start->get_leftmost_child();
 				Node* op2 = node_start->get_leftmost_child()->get_rsibling();
-				CodeGen_Traversal(op1, codegen_ptr);
+				//CodeGen_Traversal(op1, codegen_ptr);
 				//CodeGen_Traversal(op2, codegen_ptr);
+				Operand_TypeCasting(op1, codegen_ptr);
 				if(op1->get_data_type() == "REAL" || op2->get_data_type() == "REAL")
 					codegen_ptr->PrintInstruction("fmul");
 				else
@@ -709,8 +712,9 @@ void CodeGen_Traversal(Node* node_start, CODEGEN* codegen_ptr)
 			{
 				Node* op1 = node_start->get_leftmost_child();
 				Node* op2 = node_start->get_leftmost_child()->get_rsibling();
-				CodeGen_Traversal(op1, codegen_ptr);
+				//CodeGen_Traversal(op1, codegen_ptr);
 				//CodeGen_Traversal(op2, codegen_ptr);
+				Operand_TypeCasting(op1, codegen_ptr);
 				if(op1->get_data_type() == "REAL" || op2->get_data_type() == "REAL")
 					codegen_ptr->PrintInstruction("fdiv");
 				else
@@ -727,7 +731,7 @@ void CodeGen_Traversal(Node* node_start, CODEGEN* codegen_ptr)
 				cout << "op2 node type : " << op2->get_node_type() << endl;
 				cout << "id : " << op2->get_id() << endl;
 				string instrunction2print("");
-				Relation_Predicate_CommomRoutine(op1, codegen_ptr);
+				Operand_TypeCasting(op1, codegen_ptr);
 				if(op1->get_data_type() == "REAL" || op2->get_data_type() == "REAL")
 					instrunction2print += "fcmpl\n";
 				else
@@ -746,7 +750,7 @@ void CodeGen_Traversal(Node* node_start, CODEGEN* codegen_ptr)
 				Node* op1 = node_start->get_leftmost_child();
 				Node* op2 = op1->get_rsibling();
 				string instrunction2print("");
-				Relation_Predicate_CommomRoutine(op1, codegen_ptr);
+				Operand_TypeCasting(op1, codegen_ptr);
 				if(op1->get_data_type() == "REAL" || op2->get_data_type() == "REAL")
 					instrunction2print += "fcmpg\n";
 				else
@@ -765,7 +769,7 @@ void CodeGen_Traversal(Node* node_start, CODEGEN* codegen_ptr)
 				Node* op1 = node_start->get_leftmost_child();
 				Node* op2 = op1->get_rsibling();
 				string instrunction2print("");
-				Relation_Predicate_CommomRoutine(op1, codegen_ptr);
+				Operand_TypeCasting(op1, codegen_ptr);
 				if(op1->get_data_type() == "REAL" || op2->get_data_type() == "REAL")
 					instrunction2print += "fcmpl\n";
 				else
@@ -784,7 +788,7 @@ void CodeGen_Traversal(Node* node_start, CODEGEN* codegen_ptr)
 				Node* op1 = node_start->get_leftmost_child();
 				Node* op2 = op1->get_rsibling();
 				string instrunction2print("");
-				Relation_Predicate_CommomRoutine(op1, codegen_ptr);
+				Operand_TypeCasting(op1, codegen_ptr);
 				if(op1->get_data_type() == "REAL" || op2->get_data_type() == "REAL")
 					instrunction2print += "fcmpg\n";
 				else
@@ -803,7 +807,7 @@ void CodeGen_Traversal(Node* node_start, CODEGEN* codegen_ptr)
 				Node* op1 = node_start->get_leftmost_child();
 				Node* op2 = op1->get_rsibling();
 				string instrunction2print("");
-				Relation_Predicate_CommomRoutine(op1, codegen_ptr);
+				Operand_TypeCasting(op1, codegen_ptr);
 				if(op1->get_data_type() == "REAL" || op2->get_data_type() == "REAL")
 					instrunction2print += "fcmpg\n";
 				else
@@ -822,7 +826,7 @@ void CodeGen_Traversal(Node* node_start, CODEGEN* codegen_ptr)
 				Node* op1 = node_start->get_leftmost_child();
 				Node* op2 = op1->get_rsibling();
 				string instrunction2print("");
-				Relation_Predicate_CommomRoutine(op1, codegen_ptr);
+				Operand_TypeCasting(op1, codegen_ptr);
 				if(op1->get_data_type() == "REAL" || op2->get_data_type() == "REAL")
 					instrunction2print += "fcmpg\n";
 				else
