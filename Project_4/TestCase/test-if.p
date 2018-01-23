@@ -1,4 +1,4 @@
-PROGRAM aa(input, output, error);
+PROGRAM fuck(input, output, error);
 var a, b: INTEGER;
 var aa, bb, cc: REAL;
 var c: INTEGER;
@@ -10,12 +10,21 @@ begin
 	aa := 5.5;
 	bb := 6.6;
 	cc := 7.7;
-	if (a < b) then
-		if (aa < bb) then
-			cc := 10.01
-		else
-			cc := 0.5
+	if (bb < cc) then
+		begin
+			if (bb < aa) then
+				begin
+					cc := 10.01
+				end
+			else
+				begin
+					cc := 0.5
+				end
+		end
 	else
-		c := 0;
-	d := a + b
+		begin
+			c := 0
+		end;
+	d := a + b;
+	print cc
 end.
