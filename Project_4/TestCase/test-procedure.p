@@ -16,6 +16,7 @@ procedure sum(a, b: integer);
 begin
 	a := ss*ss+ss;
 	sum(a,b);
-	tt;tt;tt
+	print a;
+	print "\n"
 end.
 
