@@ -573,6 +573,22 @@ void CodeGen_Traversal(Node* node_start, CODEGEN* codegen_ptr)
 				Node* child_node = node_start->get_leftmost_child();
 				codegen_ptr->PrintInstruction("getstatic java/lang/System/out Ljava/io/PrintStream;");
 				CodeGen_Traversal(node_start->get_leftmost_child(), codegen_ptr);
+				if( child_node->get_node_type() == NODE_IDENTIFIER)
+				{
+					vector<ENTRY>::const_iterator result = codegen_ptr->get_existing_entry_from_symtab(child_node, &symbol_table_instance);
+					if(result->type == "FUNCTION")
+						if(result->return_type == "INTEGER")
+							child_node->set_data_type("INTEGER");
+						else
+							child_node->set_data_type("REAL");
+					else if(result->type == "PROCEDURE")
+					{
+						codegen_ptr->PrintInstruction(" ");
+						child_node->set_data_type("STRING");
+					}
+					else
+						child_node->set_data_type(result->type);
+				}
 				if(child_node->get_data_type() == "INTEGER")
 					codegen_ptr->PrintInstruction("invokevirtual java/io/PrintStream/print(I)V");
 				else if(child_node->get_data_type() == "REAL")
