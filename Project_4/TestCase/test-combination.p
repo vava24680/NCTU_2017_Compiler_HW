@@ -1,5 +1,7 @@
 PROGRAM cccc(input, output, error);
 
+var a, b : INTEGER;
+
 FUNCTION comb(a, b: integer) : INTEGER;
 	begin
 		if (a > b) then
@@ -18,7 +20,9 @@ FUNCTION comb(a, b: integer) : INTEGER;
 	end;
 
 begin
-	print comb(5, 2);
+	a := 3;
+	b := 4;
+	print comb(a + 3, b -2);
 	print "\n";
 	print comb(6, 2);
 	print "\n"
